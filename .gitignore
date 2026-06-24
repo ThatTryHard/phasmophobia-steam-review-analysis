@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Tableau temporary and recovery files
+*.twbr
+~*.twb
+~*.twbx
+
+# Logs and temporary files
+*.log
+*.tmp
+temp/
+tmp/

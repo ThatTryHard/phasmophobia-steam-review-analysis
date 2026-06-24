@@ -1,0 +1,15 @@
+recommendation_group,review_count_true,total_reviews,theme_flag,percentage
+Not Recommended,37,68,contains_update_keyword,54.41
+Recommended,11,103,contains_update_keyword,10.68
+Not Recommended,28,68,contains_bug_or_degradation,41.18
+Recommended,16,103,contains_bug_or_degradation,15.53
+Not Recommended,47,68,contains_positive_emotion,69.12
+Recommended,74,103,contains_positive_emotion,71.84
+Not Recommended,40,68,contains_negative_emotion,58.82
+Recommended,11,103,contains_negative_emotion,10.68
+Not Recommended,14,68,is_mourning,20.59
+Recommended,0,103,is_mourning,0.0
+Not Recommended,2,68,is_low_information,2.94
+Recommended,20,103,is_low_information,19.42
+Not Recommended,0,68,is_soft_mismatch_candidate,0.0
+Recommended,28,103,is_soft_mismatch_candidate,27.18

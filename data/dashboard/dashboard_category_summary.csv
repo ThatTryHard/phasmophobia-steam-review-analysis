@@ -1,0 +1,12 @@
+primary_category,review_category_group,review_count,avg_playtime_hours,median_playtime_hours,avg_word_count,avg_engagement,percentage
+Genuine Positive,Clear Opinion,54,81.79629629629629,22.35,21.5,0.1111111111111111,31.58
+Update Backlash,Dissatisfaction Theme,29,216.16551724137932,159.8,91.13793103448276,2.1724137931034484,16.96
+Mourning,Dissatisfaction Theme,25,244.304,206.6,129.84,2.36,14.62
+Mixed Positive,Mixed Opinion,21,118.82857142857144,48.5,54.80952380952381,0.047619047619047616,12.28
+Meme / Joke Review,Ambiguous / Low Info,16,46.16875,33.35,14.0,0.125,9.36
+Mixed Negative,Mixed Opinion,10,129.13,69.35,36.9,0.2,5.85
+Low Information,Ambiguous / Low Info,6,48.25,42.900000000000006,1.6666666666666667,0.6666666666666666,3.51
+Bug / Gameplay Degradation,Dissatisfaction Theme,4,54.3,44.45,50.5,2.5,2.34
+Genuine Negative,Clear Opinion,4,22.85,18.2,38.0,3.25,2.34
+Feature Request,Other,1,254.9,254.9,4.0,4.0,0.58
+Not My Style / Refund,Other,1,1.9,1.9,29.0,0.0,0.58

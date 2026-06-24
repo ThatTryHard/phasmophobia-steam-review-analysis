@@ -1,0 +1,14 @@
+metric,value,percentage,description
+Total tagged reviews,171,100.0,Total manually tagged reviews available for dashboard analysis.
+Recommended reviews,103,60.23,Reviews with Steam Recommended label.
+Not Recommended reviews,68,39.77,Reviews with Steam Not Recommended label.
+Positive manual sentiment,56,32.75,Reviews manually labeled as Positive.
+Negative manual sentiment,63,36.84,Reviews manually labeled as Negative.
+Mixed manual sentiment,31,18.13,Reviews manually labeled as Mixed.
+Neutral or unclear sentiment,21,12.28,Reviews manually labeled as Neutral/Unclear.
+Soft mismatch reviews,31,18.13,Reviews where Steam label and text sentiment are not fully aligned.
+Mismatch or ambiguous reviews,52,30.41,Reviews that are soft/hard mismatch or ambiguous/low-information.
+Update-related reviews,48,28.07,Reviews containing update/customization/change-related language.
+Bug or gameplay degradation reviews,44,25.73,"Reviews mentioning bugs, jank, lag, unplayable state, or gameplay degradation."
+Mourning reviews,14,8.19,Reviews expressing loss or nostalgia toward an older version of the game.
+Veteran or hardcore players,59,34.5,Reviews from players with more than 100 hours of playtime.

@@ -1,0 +1,20 @@
+player_group,mismatch_group,review_count,percentage_within_player_group
+Casual,Aligned Negative,13,22.41
+Casual,Aligned Positive,20,34.48
+Casual,Ambiguous / Low Information,12,20.69
+Casual,Soft Mismatch,13,22.41
+Hardcore,Aligned Negative,10,62.5
+Hardcore,Aligned Positive,3,18.75
+Hardcore,Soft Mismatch,3,18.75
+New,Aligned Negative,4,14.81
+New,Aligned Positive,19,70.37
+New,Ambiguous / Low Information,2,7.41
+New,Soft Mismatch,2,7.41
+Regular,Aligned Negative,6,22.22
+Regular,Aligned Positive,10,37.04
+Regular,Ambiguous / Low Information,5,18.52
+Regular,Soft Mismatch,6,22.22
+Veteran,Aligned Negative,30,69.77
+Veteran,Aligned Positive,4,9.3
+Veteran,Ambiguous / Low Information,2,4.65
+Veteran,Soft Mismatch,7,16.28
