@@ -1,109 +1,125 @@
-# Phasmophobia Steam Review Analysis — audited rebuild
-**Live dashboard:** [Explore the audited results](https://thattryhard.github.io/phasmophobia-steam-review-analysis/)
+# Phasmophobia Steam Review Analysis
 
-**Latest release:** [v2.0.0 — Audited Human-Annotated Rebuild](https://github.com/ThatTryHard/phasmophobia-steam-review-analysis/releases/tag/v2.0.0)
+Human-annotated NLP study of written sentiment and Steam recommendations.
 
-This repository studies one precise question:
+**Live dashboard:** [Explore the results](https://thattryhard.github.io/phasmophobia-steam-review-analysis/)
 
-> Within the available Phasmophobia review corpus, how often does the text
-> express clear agreement, a qualified/mixed opinion, non-evaluative content,
-> insufficient evidence, or a hard contradiction relative to Steam's binary
-> recommendation?
+**Release:** [v2.0.0](https://github.com/ThatTryHard/phasmophobia-steam-review-analysis/releases/tag/v2.0.0)
 
-The original project could not answer that question reliably. Its 171 labeled
-rows were selected with label-related heuristics, 133 labels began as
-AI-assisted drafts, annotators could see Steam recommendation signals, and one
-small random split was repeatedly reused. Those results, the fitted model, and
-the Tableau workbook have been retired. They must not be quoted.
+## Project overview
 
-## Current evidence status
+Steam reviews reduce player feedback to a binary `Recommended` or
+`Not Recommended` signal, even when the written text is qualified, mixed,
+non-evaluative, or too limited to interpret. This project examines one focused
+question:
 
-**The planned annotation and internal evaluation are complete.** Annotator A
-labeled all 262 reviews, Annotator B independently labeled 80 reviews including
-the full locked-test partition, and all 10 semantic disagreements received
-documented final human decisions. No legacy or AI-assisted label was reused.
+> Within the available Phasmophobia review corpus, how does sentiment expressed
+> in review text relate to Steam's binary recommendation?
 
-| Gate | Evidence | Status |
-|---|---|---|
-| 1. Annotation A | One human labels all 262 texts blind | Complete |
-| 2. Annotation B | Second human labels 80 texts, including all locked-test rows | Complete |
-| 3. Adjudication | Resolve every semantic or duplicate-text inconsistency | Complete: 10/10 rows |
-| 4. Analysis | Full 262-row corpus with distinct outcomes | Complete |
-| 5. Internal validation | Repeated group CV plus one locked-test evaluation | Complete |
-| 6. External validity | ≥100 later, independent, blindly labeled eligible reviews | Not yet available |
+The study uses 262 de-identified reviews collected from 9 to 13 June 2026. All
+reviews were labeled from text alone by a primary human annotator. A second
+human independently labeled 80 reviews, including the complete locked
+evaluation partition, and all 10 disagreements were adjudicated before analysis.
 
-The annotation files expose only randomized `review_id` and `review_text`.
-Steam recommendation, playtime, dates, heuristic flags, and prior labels are
-absent, so annotators cannot use them as shortcuts.
+## Key findings
 
-## Final results
-
-Agreement between the two humans was strong: Cohen's κ was **0.836** for text
+Agreement between annotators was strong. Cohen's kappa was **0.836** for text
 informativeness, **0.869** for sentiment composition, and **0.910** for primary
-theme (80 double-annotated rows). Exact counts and field-level agreement are in
-[`reports/annotation_quality.md`](reports/annotation_quality.md).
+theme across the 80 double-annotated reviews.
 
-Within this observed corpus—not the full Steam-review population—the final
-recommendation/text relationships were:
+Within this observed corpus, the final recommendation and text relationships
+were:
 
 | Relationship | Count | Estimate | 95% Wilson interval |
 |---|---:|---:|---:|
-| Hard contradiction | 3/262 | 1.1% | 0.4%–3.3% |
-| Qualified / mixed opinion | 45/262 | 17.2% | 13.1%–22.2% |
-| Non-evaluative text | 31/262 | 11.8% | 8.5%–16.3% |
-| Insufficient text | 31/262 | 11.8% | 8.5%–16.3% |
+| Hard contradiction | 3/262 | 1.1% | 0.4% to 3.3% |
+| Qualified or mixed opinion | 45/262 | 17.2% | 13.1% to 22.2% |
+| Non-evaluative text | 31/262 | 11.8% | 8.5% to 16.3% |
+| Insufficient text | 31/262 | 11.8% | 8.5% to 16.3% |
 
-The one-standard-error rule selected the word 1–2 gram TF-IDF/logistic model.
-On the 44-row locked test it achieved **0.623 macro F1** (95% group-bootstrap
-interval **0.436–0.755**) and **0.659 accuracy** (**0.488–0.793**). Point
-estimates exceeded the Steam-label mapping baseline (macro F1 **0.353**) and
-most-frequent baseline (**0.151**), but the test set remains small and this is
-not external or production validation. See
-[`reports/model_validation.md`](reports/model_validation.md).
+These estimates describe the collected five-day corpus. They are not estimates
+for all Phasmophobia players or all Steam reviews.
 
-## What was fixed
+## Annotation design
 
-### Critical
+- Annotator A labeled all 262 review texts.
+- Annotator B independently labeled 80 texts, including every row assigned to
+  the locked evaluation partition.
+- Recommendation, playtime, dates, heuristic flags, and prior labels were hidden
+  during annotation.
+- Sentiment composition, informativeness, primary theme, and confidence were
+  recorded as separate fields.
+- Every semantic disagreement was resolved before final labels were generated.
 
-- The full 262-row observed corpus is labeled; no sentiment-enriched subsample
-  is used to estimate prevalence.
-- Author names, Steam IDs, recommendation IDs, legacy labels, and heuristic
-  flags are removed.
-- Development/test assignment is locked before human labeling. Exact duplicate
-  text groups cannot cross the boundary.
-- All test rows receive two independent human annotations. Every semantic
-  disagreement is adjudicated before evaluation.
-- `Mixed`, `Neutral_non_evaluative`, `Insufficient text`, and `Hard
-  contradiction` are separate; “mismatch” is never a catch-all class.
+Exact agreement results are available in
+[`reports/annotation_quality.md`](reports/annotation_quality.md), and the full
+codebook is documented in [`docs/ANNOTATION_GUIDE.md`](docs/ANNOTATION_GUIDE.md).
 
-### Major
+## Analysis design
 
-- Models are compared with repeated stratified **group** cross-validation using
-  macro F1, balanced accuracy, class-level metrics, and uncertainty intervals.
-- A most-frequent baseline and a transparent Steam-label mapping baseline are
-  reported before text models.
-- Candidate models and hyperparameters are deliberately narrow and fixed. A
-  one-standard-error rule prefers the simplest model close to the best CV mean.
-- Missing playtime and purchase flags remain missing/`Unknown`; they are not
-  silently imputed as zero or false.
-- Full-corpus proportions include denominators and Wilson intervals; behavioral
-  medians include bootstrap intervals; sparse association tables are flagged.
-- Duplicate handling, annotation confidence, and player-hour cut points receive
-  prespecified sensitivity checks.
+- All 262 observed reviews are included in descriptive corpus summaries.
+- Hard contradiction, mixed opinion, non-evaluative text, and insufficient text
+  remain distinct categories.
+- Exact normalized-text duplicates are assigned to the same data partition.
+- Missing playtime and purchase fields remain missing or `Unknown`.
+- Proportions include denominators and Wilson intervals.
+- Behavioral medians include nonparametric bootstrap intervals.
+- Duplicate handling, annotation confidence, and alternate playtime cut points
+  receive sensitivity checks.
+- Association tests are interpreted as exploratory, not causal.
 
-### Minor and operational
+## Model validation
 
-- All paths resolve from the repository root, random seeds are centralized, and
-  dependencies/Python are pinned.
-- One canonical feature module replaces divergent notebook logic. Phrase-aware
-  boundaries prevent substring mistakes such as matching `lag` inside `flag`.
-- The generated dashboard uses an explicit deterministic error-audit sample,
-  never a cherry-picked “representative examples” claim.
-- The model manifest says `production_approved: false`. No business confidence
-  threshold is guessed.
+Eligible English reviews with sufficient text were divided into development and
+locked-test cohorts using the preassigned duplicate-aware partition. Candidate
+models were compared only on development data with repeated stratified group
+cross-validation.
 
-See [reports/IMPLEMENTATION_NOTES.md](reports/IMPLEMENTATION_NOTES.md) for the
-issue-by-issue audit trail.
+The comparison includes:
+
+- a most-frequent baseline;
+- a transparent Steam-recommendation mapping baseline;
+- word-unigram TF-IDF with Logistic Regression;
+- word 1-2 gram TF-IDF with Logistic Regression;
+- character 3-5 gram TF-IDF with Logistic Regression.
+
+The one-standard-error rule selected the word 1-2 gram model. On the 44 eligible
+locked-test reviews, it achieved:
+
+| Metric | Estimate | 95% group-bootstrap interval |
+|---|---:|---:|
+| Accuracy | 0.659 | 0.488 to 0.793 |
+| Balanced accuracy | 0.654 | 0.453 to 0.808 |
+| Macro F1 | 0.623 | 0.436 to 0.755 |
+
+The Steam mapping baseline achieved **0.353 macro F1**, while the most-frequent
+baseline achieved **0.151**. The complete comparison and class-level metrics are
+in [`reports/model_validation.md`](reports/model_validation.md).
+
+## Project architecture
+
+The repository separates analytical presentation from reusable implementation.
+The ordered notebooks describe the research workflow, while annotation
+validation, feature engineering, statistical analysis, model evaluation, and
+dashboard generation live in the tested `phasma_review` package under `src/`.
+
+This structure allows the same implementation to run through Jupyter, the
+command line, automated tests, and GitHub Actions without duplicating analytical
+logic or relying on notebook execution state.
+
+```text
+data/raw/            de-identified corpus and immutable split manifest
+data/annotations/    blinded annotation and adjudication files
+data/processed/      final labels, analysis tables, and model results
+data/dashboard/      generated dashboard tables
+data/external/       future temporal-validation contract
+src/phasma_review/   reusable pipeline implementation
+notebooks/           ordered research workflow
+scripts/             notebook generation and integrity checks
+tests/               unit and end-to-end pipeline tests
+reports/             generated analysis and validation reports
+docs/                methodology, data card, model card, and Pages site
+```
 
 ## Reproduce the project
 
@@ -113,62 +129,38 @@ Use Python 3.12 and run from the repository root:
 python -m pip install -r requirements-lock.txt
 python -m pip install -e .
 python -m phasma_review.cli status
-```
-
-Then follow [docs/ANNOTATION_GUIDE.md](docs/ANNOTATION_GUIDE.md). After both
-annotators finish:
-
-```bash
-python -m phasma_review.cli build-adjudication
-python -m phasma_review.cli import-adjudication-workbook path/to/completed_adjudication.xlsx
 python -m phasma_review.cli run-all
+python scripts/audit_invariants.py
 python -m pytest
 ```
 
-`run-all` executes in dependency order and stops immediately if annotations or
-adjudication are incomplete. It creates:
+The pipeline enforces annotation, adjudication, duplicate-group, and artifact
+integrity requirements before generating downstream results. Detailed setup
+instructions are available in
+[`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md).
 
-- analysis tables under `data/processed/`;
-- audited dashboard tables under `data/dashboard/`;
-- the research model and manifest under `models/`;
-- stakeholder reports and `reports/dashboard.html` under `reports/`.
+## Limitations
 
-The notebooks are thin, ordered interfaces to the tested package code. Rebuild
-them with `python scripts/build_notebooks.py`.
+- The corpus covers one game and a five-day review window.
+- Original scraping coverage, ordering, and inclusion probabilities were not
+  preserved well enough to establish population representativeness.
+- Wilson and bootstrap intervals quantify uncertainty conditional on the
+  observed corpus; they do not correct unknown selection bias.
+- Playtime and recommendation relationships are observational and not causal.
+- The locked test contains only 44 eligible reviews, so uncertainty remains
+  substantial.
+- Cross-game and future-update performance have not been established.
 
-## Repository layout
+## Model status
 
-```text
-data/raw/            deidentified observed corpus and immutable split manifest
-data/annotations/    blinded templates and human adjudication workspace
-data/external/       future-update temporal validation contract
-src/phasma_review/   tested source of truth
-notebooks/           ordered audit/reproduction interface
-scripts/             notebook and integrity helpers
-tests/               unit and pipeline-invariant tests
-reports/             audit notes and generated reports
-dashboard/           dashboard contract (legacy workbook retired)
-```
+The saved model is a research artifact, not a production service. It has no
+approved operating threshold, monitoring policy, business error-cost matrix, or
+external temporal validation. It should not be used for consequential automated
+decisions.
 
-## Methodological limits
+## Version history
 
-The source file covers one game and a five-day review window (2026-06-09 through
-2026-06-13). Its
-scraping completeness, language filter, ordering, and inclusion probability
-were not preserved well enough to call it representative of all Steam reviews
-or players. Wilson/bootstrap intervals quantify finite-sample uncertainty under
-a conditional sampling interpretation; they do not repair selection bias.
-Playtime associations are observational, not causal. Reviews may be duplicated,
-sarcastic, multilingual, or update-specific. Cross-game and post-update
-performance are unknown until the external validation gate passes.
-
-The tradeoff between labeling more data and fitting a more complex model is
-resolved in favor of label validity and simple baselines. With only 262 observed
-rows, increasing model complexity would manufacture variance, not evidence.
-
-## Production status
-
-This is a reproducible research/portfolio pipeline, not a production service.
-It has no latency SLO, monitoring owner, human-review SLA, business error-cost
-matrix, or approved abstention threshold. Do not automate moderation, player
-decisions, employee decisions, or any other consequential action with it.
+Version `v2.0.0` introduced the current human-annotation, grouped-validation,
+and reproducibility design. Historical implementation decisions and retired
+artifacts are documented separately in
+[`reports/IMPLEMENTATION_NOTES.md`](reports/IMPLEMENTATION_NOTES.md).

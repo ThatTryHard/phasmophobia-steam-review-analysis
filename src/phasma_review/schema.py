@@ -1,8 +1,8 @@
 """Annotation codebook constants and validation rules.
 
-Critical fix: sentiment is now judged from review text alone. Steam
-recommendation is not an annotation field and mismatch is derived only after
-human labels are finalized.
+Sentiment is judged from review text alone. Steam recommendation is not an
+annotation field, and its relationship with text is derived only after human
+labels are finalized.
 """
 
 from __future__ import annotations
@@ -52,7 +52,7 @@ CORE_LABEL_COLUMNS = [
     "primary_theme",
 ]
 
-# Critical fix: confidence is required for every completed human annotation.
+# Confidence is required for every completed human annotation.
 # It is excluded from agreement/adjudication because confidence is metadata,
 # not a semantic label on which annotators must agree.
 REQUIRED_LABEL_COLUMNS = CORE_LABEL_COLUMNS + ["annotation_confidence"]

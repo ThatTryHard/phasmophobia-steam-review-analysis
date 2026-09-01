@@ -1,13 +1,13 @@
-"""Generate audit-ready dashboard tables and a self-contained HTML report.
+"""Generate results tables and a self-contained HTML dashboard.
 
-Major fixes implemented here:
+Reporting design:
 
 * Missing pilot metadata remains ``Unknown`` instead of silently becoming
   ``False``.
 * Mixed, non-evaluative, insufficient, and hard-contradiction rows are shown
   separately.
 * Every proportion carries its denominator and interval.
-* Qualitative examples are selected by a reproducible audit rule and are never
+* Qualitative examples use a reproducible diagnostic rule and are never
   described as representative.
 """
 
@@ -173,7 +173,7 @@ def _audit_error_examples(featured: pd.DataFrame) -> pd.DataFrame:
     )
     errors["selection_rule"] = (
         "Up to two lowest-confidence locked-test errors per actual/predicted pair; "
-        "ties broken by review_id. Audit sample, not representative."
+        "ties broken by review_id. Diagnostic sample, not representative."
     )
     return errors[
         [
@@ -285,7 +285,7 @@ def write_dashboard_html(tables: dict[str, pd.DataFrame]) -> Path:
             tables["model_summary.csv"],
         ),
         (
-            "Deterministic error audit sample",
+            "Selected model error examples",
             "These are not representative examples. The selection rule is included in each row.",
             tables["audit_error_examples.csv"],
         ),
@@ -300,7 +300,7 @@ def write_dashboard_html(tables: dict[str, pd.DataFrame]) -> Path:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Phasmophobia Review Analysis — Audited Results</title>
+  <title>Phasmophobia Review Analysis | Results Dashboard</title>
   <style>
     :root {{ color-scheme: light; --ink:#15202b; --muted:#53606c; --line:#d9e0e6; --accent:#0b6e75; }}
     body {{ font-family: Inter, ui-sans-serif, system-ui, sans-serif; color:var(--ink); margin:0; background:#f6f8fa; }}

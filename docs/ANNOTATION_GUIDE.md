@@ -2,7 +2,7 @@
 
 ## Why this protocol exists
 
-> Critical fix: sentiment must be inferred from text, not copied from Steam's
+> Sentiment must be inferred from text, not copied from Steam's
 > recommendation or from a heuristic/AI draft.
 
 Annotator A labels all 262 rows. Annotator B independently labels the supplied
@@ -109,7 +109,7 @@ python -m phasma_review.cli build-adjudication
 ```
 
 The report calculates percent agreement and Cohen's κ. A third human
-adjudicator—or a documented consensus meeting after independent coding—fills
+adjudicator, or a documented consensus meeting after independent coding, fills
 every `final_*` field in the generated Excel adjudication form. The queue also includes any
 exact duplicate texts that Annotator A coded inconsistently. Adjudicators must
 apply this codebook, not default to Steam recommendation or majority vote.

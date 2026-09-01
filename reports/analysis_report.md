@@ -1,6 +1,6 @@
 # Analysis Report
 
-> Major fix: results below use all observed reviews and adjudicated human labels. Mixed, non-evaluative, insufficient, and contradictory text are not collapsed.
+> Results use all observed reviews and adjudicated human labels. Mixed, non-evaluative, insufficient, and contradictory text remain distinct.
 
 ## Scope and estimand
 

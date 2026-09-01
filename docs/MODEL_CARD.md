@@ -8,7 +8,7 @@ adjudication, and development-only selection. It is **research-only** and
 
 ## Intended use
 
-Compare simple text baselines and audit error types within this fixed
+Compare simple text baselines and inspect error types within this fixed
 Phasmophobia review study. Predictions are not a replacement for human labels.
 
 ## Not intended for
@@ -35,8 +35,7 @@ The locked test was evaluated once with group-bootstrap intervals. The selected
 word 1–2 gram TF-IDF/logistic model reached 0.623 macro F1 (95% interval
 0.436–0.755) and 0.659 accuracy (0.488–0.793) on 44 eligible locked-test rows.
 The corresponding Steam-label baseline macro F1 was 0.353. Full class-level
-metrics appear in `reports/model_validation.md`; no legacy performance claim is
-retained.
+metrics appear in `reports/model_validation.md`.
 
 ## Failure modes
 

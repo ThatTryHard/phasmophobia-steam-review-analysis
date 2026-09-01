@@ -86,9 +86,9 @@ def _as_bool_or_missing(value: object) -> object:
 def sanitize_legacy_reviews(legacy: pd.DataFrame) -> pd.DataFrame:
     """Create the deidentified 262-row source universe.
 
-    Critical fix: no author name, Steam ID, recommendation ID, assisted label,
-    or heuristic flag is retained. Exact duplicate text is grouped so it can
-    never be split across development and test partitions.
+    No author name, Steam ID, recommendation ID, assisted label, or heuristic
+    flag is retained. Exact duplicate text is grouped so it cannot be split
+    across development and test partitions.
     """
 
     required = {"review_text", "recommendation", "playtime_hours"}
@@ -153,7 +153,7 @@ def sanitize_legacy_reviews(legacy: pd.DataFrame) -> pd.DataFrame:
     group_lookup = {key: f"G{index:04d}" for index, key in enumerate(unique_keys, 1)}
     frame["text_group_id"] = frame["_text_key"].map(group_lookup)
 
-    # Critical fix: the test partition is locked before human labels exist.
+    # The test partition is locked before human labels exist.
     # Group-aware splitting prevents identical review text from crossing the boundary.
     splitter = StratifiedGroupKFold(
         n_splits=5,
@@ -255,8 +255,8 @@ def save_sanitized_source(source: pd.DataFrame) -> None:
         encoding="utf-8",
     )
     dates = pd.to_datetime(source["review_date"], errors="coerce")
-    # Major reproducibility fix: persist the exact corpus/split checksums and
-    # known scope facts so a changed input cannot masquerade as the audited set.
+    # Persist exact corpus/split checksums and known scope facts so a changed
+    # input cannot masquerade as the frozen source set.
     write_json(
         {
             "schema_version": "2.0",
@@ -281,7 +281,7 @@ def migrate_and_prepare(
     legacy_path: Path,
     overwrite_annotations: bool = False,
 ) -> pd.DataFrame:
-    # Critical fix: refuse before touching the immutable source/split if human
+    # Refuse before touching the immutable source/split if human
     # annotation work already exists.
     if not overwrite_annotations:
         existing = [
