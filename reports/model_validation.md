@@ -1,6 +1,6 @@
 # Model Validation Report
 
-> Major fix: model selection uses repeated stratified group CV on development data only. Exact duplicate texts cannot cross folds. The test set is opened once, after selection.
+> Model selection uses repeated stratified group CV on development data only. Exact duplicate texts cannot cross folds. The test set is used only after selection.
 
 ## Cohort
 

@@ -1,6 +1,6 @@
 """Descriptive analysis with explicit estimands and uncertainty.
 
-Major fixes implemented here:
+Methodological design:
 
 * Every observed review is included; no heuristic-selected labeled subset is
   used to estimate prevalence.
@@ -371,7 +371,7 @@ def write_analysis_report(
         "# Analysis Report",
         "",
         (
-            "> Major fix: results below use all observed reviews and adjudicated human "
+            "> Results use all observed reviews and adjudicated human "
             "labels. Mixed, non-evaluative, insufficient, and contradictory text are not "
             "collapsed."
         ),

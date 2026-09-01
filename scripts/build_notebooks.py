@@ -1,8 +1,8 @@
-"""Build small ordered notebooks whose source of truth remains the package.
+"""Build ordered research notebooks backed by the tested package.
 
-Minor fix: notebooks no longer carry divergent cleaning/model logic or stale
-outputs. Each notebook states the audit change immediately above the call that
-implements it.
+The notebooks explain and orchestrate the workflow. Reusable analytical logic
+remains in ``src/phasma_review`` so notebook execution does not create a second
+implementation or depend on hidden state.
 """
 
 from __future__ import annotations
@@ -41,11 +41,14 @@ NOTEBOOKS: dict[str, list[dict[str, object]]] = {
     "00_annotation_protocol.ipynb": [
         markdown(
             """
-# 00 — Blinded annotation protocol
+# 00: Blinded annotation protocol
 
-**Critical fix.** The old AI-assisted, recommendation-visible labels are not
-used. Annotator A codes all 262 reviews and Annotator B independently codes 80,
-including every locked-test row. Both files expose text only.
+## Annotation design
+
+Annotator A codes all 262 reviews from text alone. Annotator B independently
+codes 80 reviews, including every row assigned to the locked evaluation
+partition. Recommendation, playtime, heuristic flags, and prior labels remain
+hidden during annotation.
 """
         ),
         code(
@@ -66,11 +69,13 @@ source in an annotator's session because it contains the hidden Steam signal.
     "01_annotation_quality.ipynb": [
         markdown(
             """
-# 01 — Annotation quality and adjudication
+# 01: Annotation quality and adjudication
 
-**Critical fix.** Agreement is measured between independent humans. Every
-semantic disagreement and inconsistent duplicate-text label enters a human
-adjudication queue; downstream work stays blocked until it is resolved.
+## Reliability and adjudication
+
+Agreement is measured between two independent human annotators. Every semantic
+disagreement and inconsistent duplicate-text label enters an adjudication
+queue, and downstream analysis remains blocked until final decisions exist.
 """
         ),
         code(
@@ -95,12 +100,14 @@ else:
     "02_full_corpus_analysis.ipynb": [
         markdown(
             """
-# 02 — Full-corpus measurement
+# 02: Full-corpus measurement
 
-**Critical/Major fix.** Prevalence uses all 262 adjudicated rows, not a
-heuristic-selected subset. Hard contradictions, mixed opinions,
-non-evaluative text, and insufficient text remain separate. Every estimate
-includes a denominator and uncertainty interval.
+## Measurement design
+
+Descriptive results use all 262 adjudicated rows in the observed corpus. Hard
+contradictions, mixed opinions, non-evaluative text, and insufficient text
+remain separate. Every estimate includes a denominator and uncertainty
+interval.
 """
         ),
         code(
@@ -119,12 +126,14 @@ except AnnotationIncompleteError as error:
     "03_behavior_and_robustness.ipynb": [
         markdown(
             """
-# 03 — Behavior and robustness
+# 03: Behavior and robustness
 
-**Major fix.** Missing playtime remains missing. Medians receive bootstrap
-intervals, sparse association tables are flagged, and conclusions are checked
-against duplicate handling, low-confidence labels, and alternate playtime cut
-points. These are associations, not causal effects.
+## Robustness design
+
+Missing playtime remains missing. Medians receive bootstrap intervals, sparse
+association tables are flagged, and conclusions are checked against duplicate
+handling, low-confidence labels, and alternate playtime cut points. These are
+associations, not causal effects.
 """
         ),
         code(
@@ -144,12 +153,14 @@ for path in (BEHAVIOR_RESULTS_PATH, ASSOCIATION_RESULTS_PATH, SENSITIVITY_RESULT
     "04_model_validation.ipynb": [
         markdown(
             """
-# 04 — Model validation
+# 04: Model validation
 
-**Major fix.** Candidate selection occurs only in repeated stratified group CV
+## Evaluation design
+
+Candidate selection occurs only in repeated stratified group cross-validation
 on development data. Most-frequent and Steam-mapping baselines are explicit.
-The one-standard-error rule controls complexity; the locked test opens once
-after selection and receives group-bootstrap intervals.
+The one-standard-error rule controls complexity, and the locked test is used
+only after selection with group-bootstrap intervals.
 """
         ),
         code(
@@ -169,11 +180,13 @@ except (AnnotationIncompleteError, ValueError) as error:
     "05_dashboard_and_handoff.ipynb": [
         markdown(
             """
-# 05 — Audited dashboard and handoff
+# 05: Audited dashboard and handoff
 
-**Major/Minor fix.** Missing booleans display as `Unknown`, categories retain
-their exact definitions, model uncertainty is visible, and error examples
-follow a deterministic audit rule rather than a “representative” claim.
+## Reporting design
+
+Missing booleans display as `Unknown`, categories retain their exact
+definitions, model uncertainty is visible, and diagnostic error examples use
+a documented deterministic selection rule.
 """
         ),
         code(

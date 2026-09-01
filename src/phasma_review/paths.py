@@ -1,8 +1,4 @@
-"""Central project paths.
-
-Major fix: every script now resolves paths from the repository root instead of
-depending on whichever directory launched a notebook.
-"""
+"""Central project paths resolved consistently from the repository root."""
 
 from __future__ import annotations
 

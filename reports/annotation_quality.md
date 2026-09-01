@@ -1,6 +1,6 @@
 # Annotation Quality Report
 
-> Critical fix: agreement is measured only between two independent human annotators. Recommendation labels and heuristic flags were hidden.
+> Agreement is measured between two independent human annotators. Recommendation labels and heuristic flags were hidden.
 
 - Double-annotated rows: **80**
 - Rows with independent-annotator disagreement: **10**

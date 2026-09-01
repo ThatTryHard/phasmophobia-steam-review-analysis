@@ -1,8 +1,8 @@
 """Canonical text cleaning and feature engineering.
 
-Major fix: all rows now use one implementation. Minor fix: keyword matching
-uses phrase-aware word boundaries, avoiding substring errors such as matching
-``lag`` inside ``flag``.
+All rows use one feature implementation. Keyword matching uses phrase-aware
+word boundaries, avoiding substring errors such as matching ``lag`` inside
+``flag``.
 """
 
 from __future__ import annotations

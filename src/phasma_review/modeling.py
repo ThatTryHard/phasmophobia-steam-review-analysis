@@ -1,6 +1,6 @@
 """Leakage-resistant model comparison and locked-test evaluation.
 
-Major fixes implemented here:
+Evaluation design:
 
 * The locked test split was assigned before labels and is never used for model
   or hyperparameter selection.
@@ -241,8 +241,8 @@ def repeated_group_cv(
                     }
                 )
 
-            # Major fix: Steam recommendation is an explicit, zero-training
-            # reference baseline. It cannot predict Mixed or Neutral classes.
+            # Steam recommendation is an explicit, zero-training reference
+            # baseline. It cannot predict Mixed or Neutral classes.
             steam_predictions = _steam_predictions(
                 development.iloc[validation_index]["recommendation"]
             )
@@ -441,7 +441,7 @@ def _write_model_report(
         "# Model Validation Report",
         "",
         (
-            "> Major fix: model selection uses repeated stratified group CV on development "
+            "> Model selection uses repeated stratified group CV on development "
             "data only. Exact duplicate texts cannot cross folds. The test set is opened "
             "once, after selection."
         ),

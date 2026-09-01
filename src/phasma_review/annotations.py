@@ -160,8 +160,8 @@ def _safe_kappa(left: pd.Series, right: pd.Series) -> float:
 def build_adjudication_queue() -> pd.DataFrame:
     """Measure agreement and create a human-only disagreement queue.
 
-    Critical fix: all locked-test rows are double annotated. No AI-generated
-    draft can enter the final labels or test metrics.
+    All locked-test rows are double annotated. Only finalized human labels can
+    enter downstream analysis or test metrics.
     """
 
     ensure_output_directories()
@@ -230,8 +230,8 @@ def build_adjudication_queue() -> pd.DataFrame:
 
     double_disagreement_ids = set(paired.loc[disagreement_mask, "review_id"])
 
-    # Critical fix: identical normalized text must not receive inconsistent
-    # labels merely because duplicate scraper rows were seen at different times.
+    # Identical normalized text must not receive inconsistent labels merely
+    # because duplicate source rows were seen at different times.
     a_with_groups = annotator_a.merge(
         source[["review_id", "text_group_id"]],
         on="review_id",
@@ -283,7 +283,7 @@ def build_adjudication_queue() -> pd.DataFrame:
     report_lines = [
         "# Annotation Quality Report",
         "",
-        "> Critical fix: agreement is measured only between two independent human annotators. Recommendation labels and heuristic flags were hidden.",
+        "> Agreement is measured between two independent human annotators. Recommendation labels and heuristic flags were hidden.",
         "",
         f"- Double-annotated rows: **{len(paired)}**",
         f"- Rows with independent-annotator disagreement: **{len(double_disagreement_ids)}**",
@@ -303,7 +303,7 @@ def build_adjudication_queue() -> pd.DataFrame:
         [
             "",
             (
-                "Adjudication status: **Pending** — no model or dashboard should be "
+                "Adjudication status: **Pending**: no model or dashboard should be "
                 "produced until every queued row has a final human decision."
             ),
         ]
@@ -341,8 +341,8 @@ def _set_adjudication_report_status(status_line: str) -> None:
 def _validate_adjudication_decisions(adjudication: pd.DataFrame) -> None:
     """Apply the annotation codebook to adjudicated final decisions.
 
-    Critical fix: adjudication is not allowed to bypass the same categorical,
-    semantic, confidence, and note requirements imposed on independent labels.
+    Adjudication follows the same categorical, semantic, confidence, and note
+    requirements imposed on independent labels.
     """
 
     required = [
@@ -387,9 +387,9 @@ def _validate_adjudication_decisions(adjudication: pd.DataFrame) -> None:
 def import_adjudication_workbook(workbook_path: Path) -> pd.DataFrame:
     """Guardedly import final human decisions from the Excel coding form.
 
-    Critical fix: only final decision fields may change. Review IDs/text,
-    disagreement reasons, and both independent annotators' labels are compared
-    byte-for-byte with the canonical queue before any project data is updated.
+    Only final decision fields may change. Review IDs, text, disagreement
+    reasons, and both independent annotators' labels are compared byte-for-byte
+    with the canonical queue before any project data is updated.
     """
 
     if not workbook_path.exists():
@@ -430,7 +430,7 @@ def import_adjudication_workbook(workbook_path: Path) -> pd.DataFrame:
     if workbook_path.resolve() != canonical_workbook.resolve():
         shutil.copyfile(workbook_path, canonical_workbook)
     _set_adjudication_report_status(
-        f"Adjudication status: **Complete** — all {len(imported)} queued rows "
+        f"Adjudication status: **Complete**: all {len(imported)} queued rows "
         "have validated final human decisions."
     )
     return imported
@@ -554,7 +554,7 @@ def finalize_labels() -> pd.DataFrame:
     LABELED_REVIEWS_PATH.parent.mkdir(parents=True, exist_ok=True)
     merged.to_csv(LABELED_REVIEWS_PATH, index=False, encoding="utf-8")
     _set_adjudication_report_status(
-        f"Adjudication status: **Complete** — all {len(adjudication)} queued rows "
+        f"Adjudication status: **Complete**: all {len(adjudication)} queued rows "
         "have validated final human decisions, and 262 labels are finalized."
     )
     return merged

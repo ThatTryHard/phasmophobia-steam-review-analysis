@@ -22,7 +22,7 @@ original collection process.
 
 Author display names, Steam IDs, recommendation IDs, old manual/AI labels,
 keyword-selection flags, and scraper-only display strings are not part of the
-audited data contract. Randomized IDs cannot be joined back to the removed
+published data contract. Randomized IDs cannot be joined back to the removed
 identity fields within this repository.
 
 ## Known quality limits

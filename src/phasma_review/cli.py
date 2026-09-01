@@ -69,7 +69,7 @@ def _parser() -> argparse.ArgumentParser:
         help="Run development CV and the planned locked-test evaluation.",
     )
     model.add_argument("--cv-repeats", type=int, default=10)
-    subparsers.add_parser("dashboard", help="Build audited tables and HTML dashboard.")
+    subparsers.add_parser("dashboard", help="Build results tables and HTML dashboard.")
     subparsers.add_parser(
         "external-template",
         help="Create the schema-only future-update validation template.",
@@ -126,7 +126,7 @@ def _main_unhandled(argv: list[str] | None = None) -> int:
         print(f"Selected model: {result['selected_model']}")
     elif args.command == "dashboard":
         tables = run_dashboard()
-        print(f"Built {len(tables)} audited dashboard tables.")
+        print(f"Built {len(tables)} dashboard tables.")
     elif args.command == "external-template":
         write_external_template()
         print("External validation template is ready.")
