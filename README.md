@@ -1,4 +1,7 @@
 # Phasmophobia Steam Review Analysis — audited rebuild
+**Live dashboard:** [Explore the audited results](https://thattryhard.github.io/phasmophobia-steam-review-analysis/)
+
+**Latest release:** [v2.0.0 — Audited Human-Annotated Rebuild](https://github.com/ThatTryHard/phasmophobia-steam-review-analysis/releases/tag/v2.0.0)
 
 This repository studies one precise question:
 
