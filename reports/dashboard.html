@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phasmophobia Review Analysis — Audited Results</title>
+  <style>
+    :root { color-scheme: light; --ink:#15202b; --muted:#53606c; --line:#d9e0e6; --accent:#0b6e75; }
+    body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color:var(--ink); margin:0; background:#f6f8fa; }
+    main { max-width:1180px; margin:auto; padding:32px 20px 64px; }
+    header, section { background:white; border:1px solid var(--line); border-radius:10px; padding:22px; margin-bottom:18px; }
+    h1, h2 { margin-top:0; } h2 { color:var(--accent); }
+    .scope { border-left:5px solid #b25d00; } .blocked { color:#8a3b12; font-weight:600; }
+    .note, p { color:var(--muted); line-height:1.5; }
+    table { width:100%; border-collapse:collapse; font-size:0.88rem; overflow-wrap:anywhere; }
+    th, td { padding:8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { background:#eef5f5; position:sticky; top:0; }
+    section { overflow-x:auto; }
+  </style>
+</head>
+<body><main>
+  <header class="scope">
+    <h1>Phasmophobia Steam Review Analysis</h1>
+    <p><strong>Scope:</strong> the available 262-row review corpus only. This page does not claim population representativeness, causality, cross-game validity, or stability after a future update.</p>
+    <p><strong>Evidence gate:</strong> all displayed human-label results come from completed blinded annotation and adjudication. The predeclared locked-test evaluation is complete; model results remain research-only and require future temporal validation.</p>
+  </header>
+  <section><h2>Recommendation/text relationship</h2><p>Counts use the entire observed corpus. Categories are mutually distinct; a mixed opinion is not a hard contradiction.</p><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>scope_limit</th>
+      <th>scope</th>
+      <th>variable</th>
+      <th>kpi</th>
+      <th>n</th>
+      <th>denominator</th>
+      <th>proportion</th>
+      <th>ci95_lower</th>
+      <th>ci95_upper</th>
+      <th>interval_note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Observed corpus only; not all Steam players/reviews</td>
+      <td>all_observed_reviews</td>
+      <td>recommendation_text_relation</td>
+      <td>Aligned positive</td>
+      <td>111</td>
+      <td>262</td>
+      <td>0.424</td>
+      <td>0.365</td>
+      <td>0.484</td>
+      <td>Wilson interval; descriptive corpus is a census of the available file, so superpopulation inference is conditional.</td>
+    </tr>
+    <tr>
+      <td>Observed corpus only; not all Steam players/reviews</td>
+      <td>all_observed_reviews</td>
+      <td>recommendation_text_relation</td>
+      <td>Qualified / mixed opinion</td>
+      <td>45</td>
+      <td>262</td>
+      <td>0.172</td>
+      <td>0.131</td>
+      <td>0.222</td>
+      <td>Wilson interval; descriptive corpus is a census of the available file, so superpopulation inference is conditional.</td>
+    </tr>
+    <tr>
+      <td>Observed corpus only; not all Steam players/reviews</td>
+      <td>all_observed_reviews</td>
+      <td>recommendation_text_relation</td>
+      <td>Aligned negative</td>
+      <td>41</td>
+      <td>262</td>
+      <td>0.156</td>
+      <td>0.117</td>
+      <td>0.205</td>
+      <td>Wilson interval; descriptive corpus is a census of the available file, so superpopulation inference is conditional.</td>
+    </tr>
+    <tr>
+      <td>Observed corpus only; not all Steam players/reviews</td>
+      <td>all_observed_reviews</td>
+      <td>recommendation_text_relation</td>
+      <td>Non-evaluative text</td>
+      <td>31</td>
+      <td>262</td>
+      <td>0.118</td>
+      <td>0.085</td>
+      <td>0.163</td>
+      <td>Wilson interval; descriptive corpus is a census of the available file, so superpopulation inference is conditional.</td>
+    </tr>
+    <tr>
+      <td>Observed corpus only; not all Steam players/reviews</td>
+      <td>all_observed_reviews</td>
+      <td>recommendation_text_relation</td>
+      <td>Insufficient text</td>
+      <td>31</td>
+      <td>262</td>
+      <td>0.118</td>
+      <td>0.085</td>
+      <td>0.163</td>
+      <td>Wilson interval; descriptive corpus is a census of the available file, so superpopulation inference is conditional.</td>
+    </tr>
+    <tr>
+      <td>Observed corpus only; not all Steam players/reviews</td>
+      <td>all_observed_reviews</td>
+      <td>recommendation_text_relation</td>
+      <td>Hard contradiction</td>
+      <td>3</td>
+      <td>262</td>
+      <td>0.011</td>
+      <td>0.004</td>
+      <td>0.033</td>
+      <td>Wilson interval; descriptive corpus is a census of the available file, so superpopulation inference is conditional.</td>
+    </tr>
+  </tbody>
+</table></section>
+<section><h2>Recommendation × human sentiment</h2><p>Every percentage includes its displayed denominator.</p><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>recommendation</th>
+      <th>sentiment_composition</th>
+      <th>n</th>
+      <th>recommendation_denominator</th>
+      <th>within_recommendation_proportion</th>
+      <th>corpus_denominator</th>
+      <th>corpus_proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Not Recommended</td>
+      <td>Mixed</td>
+      <td>20</td>
+      <td>65</td>
+      <td>0.308</td>
+      <td>262</td>
+      <td>0.076</td>
+    </tr>
+    <tr>
+      <td>Not Recommended</td>
+      <td>Negative_only</td>
+      <td>41</td>
+      <td>65</td>
+      <td>0.631</td>
+      <td>262</td>
+      <td>0.156</td>
+    </tr>
+    <tr>
+      <td>Not Recommended</td>
+      <td>Neutral_non_evaluative</td>
+      <td>1</td>
+      <td>65</td>
+      <td>0.015</td>
+      <td>262</td>
+      <td>0.004</td>
+    </tr>
+    <tr>
+      <td>Not Recommended</td>
+      <td>Not_applicable</td>
+      <td>3</td>
+      <td>65</td>
+      <td>0.046</td>
+      <td>262</td>
+      <td>0.011</td>
+    </tr>
+    <tr>
+      <td>Recommended</td>
+      <td>Mixed</td>
+      <td>25</td>
+      <td>197</td>
+      <td>0.127</td>
+      <td>262</td>
+      <td>0.095</td>
+    </tr>
+    <tr>
+      <td>Recommended</td>
+      <td>Negative_only</td>
+      <td>3</td>
+      <td>197</td>
+      <td>0.015</td>
+      <td>262</td>
+      <td>0.011</td>
+    </tr>
+    <tr>
+      <td>Recommended</td>
+      <td>Neutral_non_evaluative</td>
+      <td>30</td>
+      <td>197</td>
+      <td>0.152</td>
+      <td>262</td>
+      <td>0.115</td>
+    </tr>
+    <tr>
+      <td>Recommended</td>
+      <td>Not_applicable</td>
+      <td>28</td>
+      <td>197</td>
+      <td>0.142</td>
+      <td>262</td>
+      <td>0.107</td>
+    </tr>
+    <tr>
+      <td>Recommended</td>
+      <td>Positive_only</td>
+      <td>111</td>
+      <td>197</td>
+      <td>0.563</td>
+      <td>262</td>
+      <td>0.424</td>
+    </tr>
+  </tbody>
+</table></section>
+<section><h2>Themes</h2><p>Themes were assigned blind to Steam recommendation.</p><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>primary_theme</th>
+      <th>recommendation</th>
+      <th>n</th>
+      <th>theme_denominator</th>
+      <th>within_theme_proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Feature_request</td>
+      <td>Recommended</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <td>Gameplay_praise</td>
+      <td>Not Recommended</td>
+      <td>1</td>
+      <td>76</td>
+      <td>0.013</td>
+    </tr>
+    <tr>
+      <td>Gameplay_praise</td>
+      <td>Recommended</td>
+      <td>75</td>
+      <td>76</td>
+      <td>0.987</td>
+    </tr>
+    <tr>
+      <td>General_evaluation</td>
+      <td>Not Recommended</td>
+      <td>6</td>
+      <td>61</td>
+      <td>0.098</td>
+    </tr>
+    <tr>
+      <td>General_evaluation</td>
+      <td>Recommended</td>
+      <td>55</td>
+      <td>61</td>
+      <td>0.902</td>
+    </tr>
+    <tr>
+      <td>Humor_or_meme</td>
+      <td>Not Recommended</td>
+      <td>2</td>
+      <td>27</td>
+      <td>0.074</td>
+    </tr>
+    <tr>
+      <td>Humor_or_meme</td>
+      <td>Recommended</td>
+      <td>25</td>
+      <td>27</td>
+      <td>0.926</td>
+    </tr>
+    <tr>
+      <td>Nostalgia_or_loss</td>
+      <td>Not Recommended</td>
+      <td>7</td>
+      <td>8</td>
+      <td>0.875</td>
+    </tr>
+    <tr>
+      <td>Nostalgia_or_loss</td>
+      <td>Recommended</td>
+      <td>1</td>
+      <td>8</td>
+      <td>0.125</td>
+    </tr>
+    <tr>
+      <td>Not_applicable</td>
+      <td>Not Recommended</td>
+      <td>3</td>
+      <td>31</td>
+      <td>0.097</td>
+    </tr>
+    <tr>
+      <td>Not_applicable</td>
+      <td>Recommended</td>
+      <td>28</td>
+      <td>31</td>
+      <td>0.903</td>
+    </tr>
+    <tr>
+      <td>Other</td>
+      <td>Recommended</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <td>Technical_issue</td>
+      <td>Not Recommended</td>
+      <td>7</td>
+      <td>13</td>
+      <td>0.538</td>
+    </tr>
+    <tr>
+      <td>Technical_issue</td>
+      <td>Recommended</td>
+      <td>6</td>
+      <td>13</td>
+      <td>0.462</td>
+    </tr>
+    <tr>
+      <td>Update_or_change</td>
+      <td>Not Recommended</td>
+      <td>39</td>
+      <td>41</td>
+      <td>0.951</td>
+    </tr>
+    <tr>
+      <td>Update_or_change</td>
+      <td>Recommended</td>
+      <td>2</td>
+      <td>41</td>
+      <td>0.049</td>
+    </tr>
+  </tbody>
+</table></section>
+<section><h2>Player groups</h2><p>Cut points are descriptive; alternate definitions are in sensitivity_results.csv.</p><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>player_group</th>
+      <th>recommendation_text_relation</th>
+      <th>n</th>
+      <th>player_group_denominator</th>
+      <th>within_player_group_proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Casual (10–50h)</td>
+      <td>Aligned negative</td>
+      <td>10</td>
+      <td>110</td>
+      <td>0.091</td>
+    </tr>
+    <tr>
+      <td>Casual (10–50h)</td>
+      <td>Aligned positive</td>
+      <td>51</td>
+      <td>110</td>
+      <td>0.464</td>
+    </tr>
+    <tr>
+      <td>Casual (10–50h)</td>
+      <td>Hard contradiction</td>
+      <td>1</td>
+      <td>110</td>
+      <td>0.009</td>
+    </tr>
+    <tr>
+      <td>Casual (10–50h)</td>
+      <td>Insufficient text</td>
+      <td>19</td>
+      <td>110</td>
+      <td>0.173</td>
+    </tr>
+    <tr>
+      <td>Casual (10–50h)</td>
+      <td>Non-evaluative text</td>
+      <td>14</td>
+      <td>110</td>
+      <td>0.127</td>
+    </tr>
+    <tr>
+      <td>Casual (10–50h)</td>
+      <td>Qualified / mixed opinion</td>
+      <td>15</td>
+      <td>110</td>
+      <td>0.136</td>
+    </tr>
+    <tr>
+      <td>Hardcore (&gt;300h)</td>
+      <td>Aligned negative</td>
+      <td>5</td>
+      <td>13</td>
+      <td>0.385</td>
+    </tr>
+    <tr>
+      <td>Hardcore (&gt;300h)</td>
+      <td>Aligned positive</td>
+      <td>4</td>
+      <td>13</td>
+      <td>0.308</td>
+    </tr>
+    <tr>
+      <td>Hardcore (&gt;300h)</td>
+      <td>Qualified / mixed opinion</td>
+      <td>4</td>
+      <td>13</td>
+      <td>0.308</td>
+    </tr>
+    <tr>
+      <td>New (≤10h)</td>
+      <td>Aligned negative</td>
+      <td>4</td>
+      <td>53</td>
+      <td>0.075</td>
+    </tr>
+    <tr>
+      <td>New (≤10h)</td>
+      <td>Aligned positive</td>
+      <td>29</td>
+      <td>53</td>
+      <td>0.547</td>
+    </tr>
+    <tr>
+      <td>New (≤10h)</td>
+      <td>Insufficient text</td>
+      <td>6</td>
+      <td>53</td>
+      <td>0.113</td>
+    </tr>
+    <tr>
+      <td>New (≤10h)</td>
+      <td>Non-evaluative text</td>
+      <td>10</td>
+      <td>53</td>
+      <td>0.189</td>
+    </tr>
+    <tr>
+      <td>New (≤10h)</td>
+      <td>Qualified / mixed opinion</td>
+      <td>4</td>
+      <td>53</td>
+      <td>0.075</td>
+    </tr>
+    <tr>
+      <td>Regular (50–100h)</td>
+      <td>Aligned negative</td>
+      <td>4</td>
+      <td>39</td>
+      <td>0.103</td>
+    </tr>
+    <tr>
+      <td>Regular (50–100h)</td>
+      <td>Aligned positive</td>
+      <td>18</td>
+      <td>39</td>
+      <td>0.462</td>
+    </tr>
+    <tr>
+      <td>Regular (50–100h)</td>
+      <td>Insufficient text</td>
+      <td>5</td>
+      <td>39</td>
+      <td>0.128</td>
+    </tr>
+    <tr>
+      <td>Regular (50–100h)</td>
+      <td>Non-evaluative text</td>
+      <td>5</td>
+      <td>39</td>
+      <td>0.128</td>
+    </tr>
+    <tr>
+      <td>Regular (50–100h)</td>
+      <td>Qualified / mixed opinion</td>
+      <td>7</td>
+      <td>39</td>
+      <td>0.179</td>
+    </tr>
+    <tr>
+      <td>Veteran (100–300h)</td>
+      <td>Aligned negative</td>
+      <td>18</td>
+      <td>47</td>
+      <td>0.383</td>
+    </tr>
+    <tr>
+      <td>Veteran (100–300h)</td>
+      <td>Aligned positive</td>
+      <td>9</td>
+      <td>47</td>
+      <td>0.191</td>
+    </tr>
+    <tr>
+      <td>Veteran (100–300h)</td>
+      <td>Hard contradiction</td>
+      <td>2</td>
+      <td>47</td>
+      <td>0.043</td>
+    </tr>
+    <tr>
+      <td>Veteran (100–300h)</td>
+      <td>Insufficient text</td>
+      <td>1</td>
+      <td>47</td>
+      <td>0.021</td>
+    </tr>
+    <tr>
+      <td>Veteran (100–300h)</td>
+      <td>Non-evaluative text</td>
+      <td>2</td>
+      <td>47</td>
+      <td>0.043</td>
+    </tr>
+    <tr>
+      <td>Veteran (100–300h)</td>
+      <td>Qualified / mixed opinion</td>
+      <td>15</td>
+      <td>47</td>
+      <td>0.319</td>
+    </tr>
+  </tbody>
+</table></section>
+<section><h2>Locked-test model metrics</h2><p>The selected model and prespecified baselines are shown with uncertainty. This model is research-only.</p><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>model</th>
+      <th>metric</th>
+      <th>class</th>
+      <th>estimate</th>
+      <th>ci95_lower</th>
+      <th>ci95_upper</th>
+      <th>n_test</th>
+      <th>interval_note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>accuracy</td>
+      <td>overall</td>
+      <td>0.659</td>
+      <td>0.488</td>
+      <td>0.793</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>balanced_accuracy</td>
+      <td>overall</td>
+      <td>0.654</td>
+      <td>0.453</td>
+      <td>0.808</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>macro_f1</td>
+      <td>overall</td>
+      <td>0.623</td>
+      <td>0.436</td>
+      <td>0.755</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>precision</td>
+      <td>Mixed</td>
+      <td>0.600</td>
+      <td>0.273</td>
+      <td>0.900</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>recall</td>
+      <td>Mixed</td>
+      <td>0.500</td>
+      <td>0.200</td>
+      <td>0.800</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>f1</td>
+      <td>Mixed</td>
+      <td>0.545</td>
+      <td>0.250</td>
+      <td>0.778</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>precision</td>
+      <td>Negative_only</td>
+      <td>0.444</td>
+      <td>0.100</td>
+      <td>0.800</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>recall</td>
+      <td>Negative_only</td>
+      <td>0.667</td>
+      <td>0.200</td>
+      <td>1.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>f1</td>
+      <td>Negative_only</td>
+      <td>0.533</td>
+      <td>0.154</td>
+      <td>0.800</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>precision</td>
+      <td>Neutral_non_evaluative</td>
+      <td>0.500</td>
+      <td>0.167</td>
+      <td>0.833</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>recall</td>
+      <td>Neutral_non_evaluative</td>
+      <td>0.714</td>
+      <td>0.286</td>
+      <td>1.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>f1</td>
+      <td>Neutral_non_evaluative</td>
+      <td>0.588</td>
+      <td>0.211</td>
+      <td>0.833</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>precision</td>
+      <td>Positive_only</td>
+      <td>0.933</td>
+      <td>0.733</td>
+      <td>1.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>recall</td>
+      <td>Positive_only</td>
+      <td>0.737</td>
+      <td>0.462</td>
+      <td>0.923</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>word_1_2gram_logreg</td>
+      <td>f1</td>
+      <td>Positive_only</td>
+      <td>0.824</td>
+      <td>0.600</td>
+      <td>0.941</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>accuracy</td>
+      <td>overall</td>
+      <td>0.432</td>
+      <td>0.268</td>
+      <td>0.600</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>balanced_accuracy</td>
+      <td>overall</td>
+      <td>0.250</td>
+      <td>0.250</td>
+      <td>0.250</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>macro_f1</td>
+      <td>overall</td>
+      <td>0.151</td>
+      <td>0.106</td>
+      <td>0.188</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>precision</td>
+      <td>Mixed</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>recall</td>
+      <td>Mixed</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>f1</td>
+      <td>Mixed</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>precision</td>
+      <td>Negative_only</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>recall</td>
+      <td>Negative_only</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>f1</td>
+      <td>Negative_only</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>precision</td>
+      <td>Neutral_non_evaluative</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>recall</td>
+      <td>Neutral_non_evaluative</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>f1</td>
+      <td>Neutral_non_evaluative</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>precision</td>
+      <td>Positive_only</td>
+      <td>0.432</td>
+      <td>0.268</td>
+      <td>0.600</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>recall</td>
+      <td>Positive_only</td>
+      <td>1.000</td>
+      <td>1.000</td>
+      <td>1.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>most_frequent</td>
+      <td>f1</td>
+      <td>Positive_only</td>
+      <td>0.603</td>
+      <td>0.423</td>
+      <td>0.750</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>steam_recommendation_mapping</td>
+      <td>accuracy</td>
+      <td>overall</td>
+      <td>0.568</td>
+      <td>0.390</td>
+      <td>0.717</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>steam_recommendation_mapping</td>
+      <td>balanced_accuracy</td>
+      <td>overall</td>
+      <td>0.500</td>
+      <td>0.500</td>
+      <td>0.500</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>steam_recommendation_mapping</td>
+      <td>macro_f1</td>
+      <td>overall</td>
+      <td>0.353</td>
+      <td>0.258</td>
+      <td>0.414</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>steam_recommendation_mapping</td>
+      <td>precision</td>
+      <td>Mixed</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>steam_recommendation_mapping</td>
+      <td>recall</td>
+      <td>Mixed</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>steam_recommendation_mapping</td>
+      <td>f1</td>
+      <td>Mixed</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>steam_recommendation_mapping</td>
+      <td>precision</td>
+      <td>Negative_only</td>
+      <td>0.500</td>
+      <td>0.200</td>
+      <td>0.778</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>steam_recommendation_mapping</td>
+      <td>recall</td>
+      <td>Negative_only</td>
+      <td>1.000</td>
+      <td>1.000</td>
+      <td>1.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>steam_recommendation_mapping</td>
+      <td>f1</td>
+      <td>Negative_only</td>
+      <td>0.667</td>
+      <td>0.333</td>
+      <td>0.875</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+    <tr>
+      <td>steam_recommendation_mapping</td>
+      <td>precision</td>
+      <td>Neutral_non_evaluative</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>44</td>
+      <td>Group bootstrap, 2,000 resamples.</td>
+    </tr>
+  </tbody>
+</table><p class="note">Showing 40 of 45 rows.</p></section>
+<section><h2>Deterministic error audit sample</h2><p>These are not representative examples. The selection rule is included in each row.</p><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>review_id</th>
+      <th>actual</th>
+      <th>predicted</th>
+      <th>prediction_confidence</th>
+      <th>review_text</th>
+      <th>selection_rule</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>R0179</td>
+      <td>Mixed</td>
+      <td>Negative_only</td>
+      <td>0.365</td>
+      <td>The game itself is super cool and easily worth playing... ...after they fix all of the blatant bugs they've more recently introduced into the game. I'll correct my review to "recommended" if they fix their plethora of bugs to "consistently playable".</td>
+      <td>Up to two lowest-confidence locked-test errors per actual/predicted pair; ties broken by review_id. Audit sample, not representative.</td>
+    </tr>
+    <tr>
+      <td>R0112</td>
+      <td>Mixed</td>
+      <td>Negative_only</td>
+      <td>0.442</td>
+      <td>it was good before new update sucks make settings to change things back to original</td>
+      <td>Up to two lowest-confidence locked-test errors per actual/predicted pair; ties broken by review_id. Audit sample, not representative.</td>
+    </tr>
+    <tr>
+      <td>R0164</td>
+      <td>Mixed</td>
+      <td>Neutral_non_evaluative</td>
+      <td>0.382</td>
+      <td>Very Good! Could use some animation fixes and also a few more unique scary ghost interactions</td>
+      <td>Up to two lowest-confidence locked-test errors per actual/predicted pair; ties broken by review_id. Audit sample, not representative.</td>
+    </tr>
+    <tr>
+      <td>R0146</td>
+      <td>Mixed</td>
+      <td>Neutral_non_evaluative</td>
+      <td>0.407</td>
+      <td>spooky. should be better optimized. both performance and networking.</td>
+      <td>Up to two lowest-confidence locked-test errors per actual/predicted pair; ties broken by review_id. Audit sample, not representative.</td>
+    </tr>
+    <tr>
+      <td>R0193</td>
+      <td>Negative_only</td>
+      <td>Mixed</td>
+      <td>0.370</td>
+      <td>Phasmophobia might just be one of the most neglected games of all time. There is so much potential, but their dev team are absolutely HORRENDOUS at meeting deadlines, and even when they do, they come out with mediocre result. They've had their fair share of excuses, but it is getting out of line. There are TOO many bugs, TOO many hackers, and this one guy called BiscuitBum who lurks on their servers and won't stop threatening to tickle the soles of my feet. Sort. It. Out.</td>
+      <td>Up to two lowest-confidence locked-test errors per actual/predicted pair; ties broken by review_id. Audit sample, not representative.</td>
+    </tr>
+    <tr>
+      <td>R0133</td>
+      <td>Negative_only</td>
+      <td>Positive_only</td>
+      <td>0.339</td>
+      <td>Slop</td>
+      <td>Up to two lowest-confidence locked-test errors per actual/predicted pair; ties broken by review_id. Audit sample, not representative.</td>
+    </tr>
+    <tr>
+      <td>R0083</td>
+      <td>Neutral_non_evaluative</td>
+      <td>Mixed</td>
+      <td>0.322</td>
+      <td>Who ya gonna call? Not the ghost busters, they're really expensive. Just get the local occult culb to deal with it.</td>
+      <td>Up to two lowest-confidence locked-test errors per actual/predicted pair; ties broken by review_id. Audit sample, not representative.</td>
+    </tr>
+    <tr>
+      <td>R0188</td>
+      <td>Neutral_non_evaluative</td>
+      <td>Mixed</td>
+      <td>0.407</td>
+      <td>play with frinds but not with ones that count as 3 people</td>
+      <td>Up to two lowest-confidence locked-test errors per actual/predicted pair; ties broken by review_id. Audit sample, not representative.</td>
+    </tr>
+    <tr>
+      <td>R0003</td>
+      <td>Positive_only</td>
+      <td>Mixed</td>
+      <td>0.487</td>
+      <td>very buggy but ngl that's one reason why i love this game. it's very addicting. its fun to do the research and learn new was to play this game. it is scary at first and to be honest I still jumped scared. but it is very fun if you enjoy puzzle horror game, I recommend it alot.</td>
+      <td>Up to two lowest-confidence locked-test errors per actual/predicted pair; ties broken by review_id. Audit sample, not representative.</td>
+    </tr>
+    <tr>
+      <td>R0192</td>
+      <td>Positive_only</td>
+      <td>Negative_only</td>
+      <td>0.419</td>
+      <td>played this game since early release days and im still in love with every aspect of the game</td>
+      <td>Up to two lowest-confidence locked-test errors per actual/predicted pair; ties broken by review_id. Audit sample, not representative.</td>
+    </tr>
+    <tr>
+      <td>R0259</td>
+      <td>Positive_only</td>
+      <td>Neutral_non_evaluative</td>
+      <td>0.356</td>
+      <td>Walked in room,saw friend doing a ritual,woke up my sister from chanting,got strangled,hopped on phasmaphobia 10\10</td>
+      <td>Up to two lowest-confidence locked-test errors per actual/predicted pair; ties broken by review_id. Audit sample, not representative.</td>
+    </tr>
+    <tr>
+      <td>R0131</td>
+      <td>Positive_only</td>
+      <td>Neutral_non_evaluative</td>
+      <td>0.406</td>
+      <td>good game scary though</td>
+      <td>Up to two lowest-confidence locked-test errors per actual/predicted pair; ties broken by review_id. Audit sample, not representative.</td>
+    </tr>
+  </tbody>
+</table></section>
+</main></body></html>

@@ -1,0 +1,27 @@
+{
+  "artifact_role": "research_only",
+  "cv_repeats": 10,
+  "development_class_counts": {
+    "Mixed": 33,
+    "Negative_only": 38,
+    "Neutral_non_evaluative": 24,
+    "Positive_only": 92
+  },
+  "development_rows": 187,
+  "featured_file_sha256": "aec20f9e4f9e638f16feede0553082cce848f8de1edab488deacf86192b74161",
+  "label_file_sha256": "b2cfae29429e01356bc643e616302e3c5feefee712d4e015fd57a6c094194706",
+  "locked_test_rows": 44,
+  "operational_abstention_threshold": null,
+  "production_approved": false,
+  "random_seed": 20260813,
+  "selected_model": "word_1_2gram_logreg",
+  "selection_rule": "one_standard_error_then_lowest_complexity",
+  "split_manifest_sha256": "04e56005f8d432b6ae50505e004a9b59c397e9a5fce9b2b46ad11271f7b06c62",
+  "test_class_counts": {
+    "Mixed": 12,
+    "Negative_only": 6,
+    "Neutral_non_evaluative": 7,
+    "Positive_only": 19
+  },
+  "threshold_reason": "Business error costs were not supplied; predictions require human review."
+}

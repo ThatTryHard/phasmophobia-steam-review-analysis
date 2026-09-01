@@ -1,611 +1,171 @@
-# Sentiment Analysis of Phasmophobia Steam Reviews
+# Phasmophobia Steam Review Analysis — audited rebuild
+
+This repository studies one precise question:
+
+> Within the available Phasmophobia review corpus, how often does the text
+> express clear agreement, a qualified/mixed opinion, non-evaluative content,
+> insufficient evidence, or a hard contradiction relative to Steam's binary
+> recommendation?
+
+The original project could not answer that question reliably. Its 171 labeled
+rows were selected with label-related heuristics, 133 labels began as
+AI-assisted drafts, annotators could see Steam recommendation signals, and one
+small random split was repeatedly reused. Those results, the fitted model, and
+the Tableau workbook have been retired. They must not be quoted.
+
+## Current evidence status
+
+**The planned annotation and internal evaluation are complete.** Annotator A
+labeled all 262 reviews, Annotator B independently labeled 80 reviews including
+the full locked-test partition, and all 10 semantic disagreements received
+documented final human decisions. No legacy or AI-assisted label was reused.
+
+| Gate | Evidence | Status |
+|---|---|---|
+| 1. Annotation A | One human labels all 262 texts blind | Complete |
+| 2. Annotation B | Second human labels 80 texts, including all locked-test rows | Complete |
+| 3. Adjudication | Resolve every semantic or duplicate-text inconsistency | Complete: 10/10 rows |
+| 4. Analysis | Full 262-row corpus with distinct outcomes | Complete |
+| 5. Internal validation | Repeated group CV plus one locked-test evaluation | Complete |
+| 6. External validity | ≥100 later, independent, blindly labeled eligible reviews | Not yet available |
+
+The annotation files expose only randomized `review_id` and `review_text`.
+Steam recommendation, playtime, dates, heuristic flags, and prior labels are
+absent, so annotators cannot use them as shortcuts.
+
+## Final results
+
+Agreement between the two humans was strong: Cohen's κ was **0.836** for text
+informativeness, **0.869** for sentiment composition, and **0.910** for primary
+theme (80 double-annotated rows). Exact counts and field-level agreement are in
+[`reports/annotation_quality.md`](reports/annotation_quality.md).
+
+Within this observed corpus—not the full Steam-review population—the final
+recommendation/text relationships were:
+
+| Relationship | Count | Estimate | 95% Wilson interval |
+|---|---:|---:|---:|
+| Hard contradiction | 3/262 | 1.1% | 0.4%–3.3% |
+| Qualified / mixed opinion | 45/262 | 17.2% | 13.1%–22.2% |
+| Non-evaluative text | 31/262 | 11.8% | 8.5%–16.3% |
+| Insufficient text | 31/262 | 11.8% | 8.5%–16.3% |
+
+The one-standard-error rule selected the word 1–2 gram TF-IDF/logistic model.
+On the 44-row locked test it achieved **0.623 macro F1** (95% group-bootstrap
+interval **0.436–0.755**) and **0.659 accuracy** (**0.488–0.793**). Point
+estimates exceeded the Steam-label mapping baseline (macro F1 **0.353**) and
+most-frequent baseline (**0.151**), but the test set remains small and this is
+not external or production validation. See
+[`reports/model_validation.md`](reports/model_validation.md).
+
+## What was fixed
+
+### Critical
+
+- The full 262-row observed corpus is labeled; no sentiment-enriched subsample
+  is used to estimate prevalence.
+- Author names, Steam IDs, recommendation IDs, legacy labels, and heuristic
+  flags are removed.
+- Development/test assignment is locked before human labeling. Exact duplicate
+  text groups cannot cross the boundary.
+- All test rows receive two independent human annotations. Every semantic
+  disagreement is adjudicated before evaluation.
+- `Mixed`, `Neutral_non_evaluative`, `Insufficient text`, and `Hard
+  contradiction` are separate; “mismatch” is never a catch-all class.
+
+### Major
+
+- Models are compared with repeated stratified **group** cross-validation using
+  macro F1, balanced accuracy, class-level metrics, and uncertainty intervals.
+- A most-frequent baseline and a transparent Steam-label mapping baseline are
+  reported before text models.
+- Candidate models and hyperparameters are deliberately narrow and fixed. A
+  one-standard-error rule prefers the simplest model close to the best CV mean.
+- Missing playtime and purchase flags remain missing/`Unknown`; they are not
+  silently imputed as zero or false.
+- Full-corpus proportions include denominators and Wilson intervals; behavioral
+  medians include bootstrap intervals; sparse association tables are flagged.
+- Duplicate handling, annotation confidence, and player-hour cut points receive
+  prespecified sensitivity checks.
+
+### Minor and operational
+
+- All paths resolve from the repository root, random seeds are centralized, and
+  dependencies/Python are pinned.
+- One canonical feature module replaces divergent notebook logic. Phrase-aware
+  boundaries prevent substring mistakes such as matching `lag` inside `flag`.
+- The generated dashboard uses an explicit deterministic error-audit sample,
+  never a cherry-picked “representative examples” claim.
+- The model manifest says `production_approved: false`. No business confidence
+  threshold is guessed.
+
+See [reports/IMPLEMENTATION_NOTES.md](reports/IMPLEMENTATION_NOTES.md) for the
+issue-by-issue audit trail.
 
-A text analytics and business intelligence project that examines whether Steam's binary **Recommended / Not Recommended** label fully represents the sentiment expressed in review text.
+## Reproduce the project
 
-The project uses **Phasmophobia** reviews as a case study. It combines behavioral exploratory analysis, manual and assisted sentiment annotation, TF-IDF text classification, model error analysis, and a four-page Tableau dashboard.
-
----
-
-## Project Overview
-
-Steam reviews provide two related but different signals:
-
-1. A binary recommendation label:
-   - `Recommended`
-   - `Not Recommended`
-
-2. Free-form review text that may contain:
-   - positive or negative sentiment
-   - mixed opinions
-   - sarcasm or meme language
-   - complaints despite a positive recommendation
-   - nostalgia or disappointment toward an older version of the game
-   - low-information statements that do not clearly express sentiment
-
-Because of this, the recommendation label does not always capture the full meaning of the review.
-
-This project investigates the following question:
-
-> **How much sentiment nuance is lost when Steam reviews are represented only by their binary recommendation label?**
-
----
-
-## Main Objectives
-
-The project was developed to:
-
-- collect recent English-language Steam reviews
-- analyze player behavior through playtime, review length, and engagement
-- compare Steam recommendation labels with manually interpreted sentiment
-- identify aligned, mixed, ambiguous, and mismatch review patterns
-- train interpretable baseline sentiment models
-- investigate the review types that are most difficult for the models
-- present the findings through an interactive Tableau dashboard
-
----
-
-## Key Results
-
-### Dataset
-
-| Stage | Number of reviews |
-|---|---:|
-| Expanded raw dataset | 262 |
-| Pilot tagged dataset | 38 |
-| Second tagged batch | 133 |
-| Final combined tagged dataset | 171 |
-
-### Recommendation distribution
-
-| Steam label | Reviews |
-|---|---:|
-| Recommended | 103 |
-| Not Recommended | 68 |
-
-### Manual sentiment distribution
-
-| Sentiment | Reviews |
-|---|---:|
-| Negative | 63 |
-| Positive | 56 |
-| Mixed | 31 |
-| Neutral/Unclear | 21 |
-
-### Main mismatch groups
-
-| Group | Reviews |
-|---|---:|
-| Aligned Negative | 63 |
-| Aligned Positive | 56 |
-| Soft Mismatch | 31 |
-| Ambiguous / Low Information | 21 |
-
-### Baseline model performance
-
-| Model | Accuracy | Macro F1 |
-|---|---:|---:|
-| Binary sentiment model | 86.7% | 86.4% |
-| Multiclass sentiment model | 65.1% | 61.6% |
-
-The binary model performs well when sentiment is reduced to clear positive and negative classes. Performance decreases in the multiclass setting because `Mixed` and `Neutral/Unclear` reviews contain more overlapping and inconsistent language.
-
----
-
-## Main Findings
-
-### 1. Negative recommendation labels are relatively direct
-
-Most `Not Recommended` reviews in the tagged dataset also contain negative textual sentiment.
-
-This suggests that negative Steam labels provide a fairly reliable coarse signal of dissatisfaction.
-
-### 2. Recommended reviews contain more nuance
-
-Some `Recommended` reviews include complaints, frustration, or mixed opinions.
-
-These reviews do not necessarily represent direct contradictions. In many cases, the player still recommends the game overall while criticizing a specific update, bug, design decision, or change in gameplay quality.
-
-### 3. Soft mismatch is more common than hard contradiction
-
-The main mismatch pattern is not a fully positive label paired with completely negative text.
-
-Instead, the more common pattern is:
-
-```text
-Recommended label + Mixed review text
-```
-
-This shows that binary recommendation systems can hide conditional or qualified opinions.
-
-### 4. Ambiguous reviews are difficult to interpret
-
-Short reactions, meme reviews, jokes, and low-information statements may receive a recommendation label without providing enough textual evidence for a clear sentiment interpretation.
-
-### 5. Multiclass sentiment is substantially harder
-
-The text model can distinguish clear positive and negative reviews reasonably well, but it struggles more with:
-
-- mixed sentiment
-- neutral or unclear language
-- meme-style reviews
-- low-information reviews
-- reviews containing both praise and criticism
-
-This is reflected in the difference between binary and multiclass model performance.
-
----
-
-## Annotation Method
-
-The final 171-row modeling dataset combines:
-
-- **38 pilot manual annotations**
-- **133 AI-assisted draft annotations**
-
-The annotation taxonomy includes:
-
-- `Positive`
-- `Negative`
-- `Mixed`
-- `Neutral/Unclear`
-
-Additional review categories were used to support qualitative analysis, including:
-
-- genuine positive
-- genuine negative
-- update backlash
-- bug complaint
-- developer criticism
-- mourning or nostalgia
-- sarcasm
-- meme
-- low information
-
-The `annotation_source` field is retained in the final dataset to make the annotation provenance explicit.
-
-Because part of the dataset uses assisted draft annotation, the model results should be interpreted as **exploratory baseline results**, not as a definitive benchmark.
-
----
-
-## Mismatch Taxonomy
-
-The relationship between Steam recommendation and manually interpreted sentiment is summarized using the following groups:
-
-| Mismatch group | Definition |
-|---|---|
-| Aligned Positive | Recommended + Positive |
-| Aligned Negative | Not Recommended + Negative |
-| Hard Mismatch | Recommendation label directly contradicts textual sentiment |
-| Soft Mismatch | Recommendation label is paired with Mixed sentiment |
-| Ambiguous / Low Information | Review text does not express enough clear evaluative sentiment |
-
-For dashboard reporting, the main final groups are:
-
-- Aligned Positive
-- Aligned Negative
-- Soft Mismatch
-- Ambiguous / Low Information
-
----
-
-## Modeling Approach
-
-### Text representation
-
-Review text is converted into TF-IDF features.
-
-TF-IDF gives more weight to terms that are important within a review while reducing the influence of terms that appear frequently across the dataset.
-
-### Classifier
-
-The baseline models use Logistic Regression because it is:
-
-- suitable for sparse TF-IDF features
-- relatively interpretable
-- efficient for a small labeled dataset
-- useful for inspecting influential terms
-
-### Modeling tasks
-
-Three modeling experiments are included:
-
-1. **Binary sentiment classification**
-   - Positive
-   - Negative
-
-2. **Multiclass sentiment classification**
-   - Positive
-   - Negative
-   - Mixed
-   - Neutral/Unclear
-
-3. **Mismatch / ambiguity classification**
-   - exploratory supporting experiment
-
-The binary sentiment model is saved as:
-
-```text
-models/baseline_binary_sentiment_tfidf_logreg.joblib
-```
-
----
-
-## Model Error Analysis
-
-The project does not evaluate the models using accuracy alone.
-
-The error analysis examines:
-
-- actual and predicted class combinations
-- error rate by sentiment class
-- error rate by review category
-- error rate by mismatch group
-- review length and prediction errors
-- representative wrong predictions
-
-Final test-set error counts:
-
-| Model | Wrong predictions |
-|---|---:|
-| Binary model | 4 |
-| Multiclass model | 15 |
-
-The multiclass errors are especially useful because they show where sentiment categories overlap semantically.
-
----
-
-## Tableau Dashboard
-
-The final Tableau dashboard contains four pages:
-
-### Page 1: Executive Overview
-
-Provides the main project KPIs:
-
-- total tagged reviews
-- recommendation distribution
-- manual sentiment distribution
-- aligned and mismatch review share
-
-![Executive Overview](dashboard/screenshots/01.png)
-
-### Page 2: Player Behavior
-
-Examines:
-
-- sentiment by player segment
-- mismatch by player segment
-- playtime-related patterns
-- review behavior across experience levels
-
-![Player Behavior](dashboard/screenshots/02.png)
-
-### Page 3: Mismatch and Ambiguity
-
-Explores:
-
-- mismatch group distribution
-- recommendation and sentiment relationships
-- review themes and categories
-- representative review examples
-
-![Mismatch and Ambiguity](dashboard/screenshots/03.png)
-
-### Page 4: Model Performance
-
-Presents:
-
-- binary and multiclass metrics
-- model error counts
-- class-level performance
-- representative wrong predictions
-
-![Model Performance](dashboard/screenshots/04.png)
-
-The packaged Tableau workbook is available at:
-
-```text
-dashboard/project_dashboard.twbx
-```
-
----
-
-## Project Workflow
-
-```text
-Steam Review API / pilot browser scraper
-                |
-                v
-        Raw review datasets
-                |
-                v
-       Cleaning and feature engineering
-                |
-                v
-     Behavioral exploratory analysis
-                |
-                v
-       Pilot manual annotation
-                |
-                v
- Expanded processing and second tagging batch
-                |
-                v
-      Merge tagged datasets: 38 + 133
-                |
-                v
-      TF-IDF + Logistic Regression
-                |
-                v
-          Model error analysis
-                |
-                v
-      Tableau dashboard preparation
-```
-
----
-
-## Repository Structure
-
-```text
-project/
-├── README.md
-├── requirements.txt
-├── .gitignore
-│
-├── data/
-│   ├── raw/
-│   │   └── phasmophobia_reviews_expanded_raw.csv
-│   │
-│   ├── interim/
-│   │   ├── data_for_manual_tagging.csv
-│   │   ├── manual_tagging_candidates.csv
-│   │   ├── manual_tagging_candidates_tagged.csv
-│   │   ├── manual_tagging_batch_02.csv
-│   │   └── phasmophobia_reviews_expanded_processed.csv
-│   │
-│   ├── processed/
-│   │   ├── manual_tagging_analysis_ready.csv
-│   │   ├── manual_tagging_batch_02_tagged_assistant.csv
-│   │   ├── combined_tagged_reviews_after_batch02.csv
-│   │   ├── combined_tagged_reviews_model_ready.csv
-│   │   ├── binary_sentiment_predictions.csv
-│   │   ├── multiclass_sentiment_predictions.csv
-│   │   ├── binary_wrong_predictions_enriched.csv
-│   │   ├── multiclass_wrong_predictions_enriched.csv
-│   │   ├── model_error_analysis_summary.csv
-│   │   └── dashboard_error_examples.csv
-│   │
-│   ├── dashboard/
-│   │   ├── dashboard_review_level.csv
-│   │   ├── dashboard_kpi_summary.csv
-│   │   ├── dashboard_recommendation_sentiment_matrix.csv
-│   │   ├── dashboard_mismatch_summary.csv
-│   │   ├── dashboard_mismatch_by_recommendation.csv
-│   │   ├── dashboard_category_summary.csv
-│   │   ├── dashboard_player_sentiment_summary.csv
-│   │   ├── dashboard_player_mismatch_summary.csv
-│   │   ├── dashboard_theme_summary.csv
-│   │   ├── dashboard_theme_by_recommendation.csv
-│   │   ├── dashboard_model_summary.csv
-│   │   ├── dashboard_error_examples_clean.csv
-│   │   ├── dashboard_representative_examples.csv
-│   │   └── README_dashboard_datasets.md
-│   │
-│   └── archive/
-│       ├── phasmophobia_reviews_raw.csv
-│       └── phasmophobia_reviews_processed.csv
-│
-├── notebooks/
-│   ├── 01_manual_exploration.ipynb
-│   ├── 02_behavioral_eda.ipynb
-│   ├── 03_sentiment_mismatch_analysis.ipynb
-│   ├── 04_dataset_expansion_and_sampling.ipynb
-│   ├── 05_merge_tagged_data_and_baseline_model.ipynb
-│   ├── 06_model_error_analysis.ipynb
-│   └── 07_dashboard_dataset_prep.ipynb
-│
-├── scraper/
-│   ├── scrape_steam_reviews_batch.py
-│   ├── steam_review_scraper.py
-│   └── utils.py
-│
-├── preprocessing/
-│
-├── models/
-│   └── baseline_binary_sentiment_tfidf_logreg.joblib
-│
-└── dashboard/
-    ├── project_dashboard.twbx
-    └── screenshots/
-        ├── 01.png
-        ├── 02.png
-        ├── 03.png
-        └── 04.png
-```
-
----
-
-## How to Run the Project
-
-### 1. Clone the repository
+Use Python 3.12 and run from the repository root:
 
 ```bash
-git clone <repository-url>
-cd <repository-folder>
+python -m pip install -r requirements-lock.txt
+python -m pip install -e .
+python -m phasma_review.cli status
 ```
 
-### 2. Create a virtual environment
-
-Windows:
+Then follow [docs/ANNOTATION_GUIDE.md](docs/ANNOTATION_GUIDE.md). After both
+annotators finish:
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
+python -m phasma_review.cli build-adjudication
+python -m phasma_review.cli import-adjudication-workbook path/to/completed_adjudication.xlsx
+python -m phasma_review.cli run-all
+python -m pytest
 ```
 
-macOS or Linux:
+`run-all` executes in dependency order and stops immediately if annotations or
+adjudication are incomplete. It creates:
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-```
+- analysis tables under `data/processed/`;
+- audited dashboard tables under `data/dashboard/`;
+- the research model and manifest under `models/`;
+- stakeholder reports and `reports/dashboard.html` under `reports/`.
 
-### 3. Install dependencies
+The notebooks are thin, ordered interfaces to the tested package code. Rebuild
+them with `python scripts/build_notebooks.py`.
 
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Run the notebooks
-
-Open Jupyter:
-
-```bash
-jupyter notebook
-```
-
-Run the notebooks in this order:
+## Repository layout
 
 ```text
-01_manual_exploration.ipynb
-02_behavioral_eda.ipynb
-03_sentiment_mismatch_analysis.ipynb
-04_dataset_expansion_and_sampling.ipynb
-05_merge_tagged_data_and_baseline_model.ipynb
-06_model_error_analysis.ipynb
-07_dashboard_dataset_prep.ipynb
+data/raw/            deidentified observed corpus and immutable split manifest
+data/annotations/    blinded templates and human adjudication workspace
+data/external/       future-update temporal validation contract
+src/phasma_review/   tested source of truth
+notebooks/           ordered audit/reproduction interface
+scripts/             notebook and integrity helpers
+tests/               unit and pipeline-invariant tests
+reports/             audit notes and generated reports
+dashboard/           dashboard contract (legacy workbook retired)
 ```
 
-### Important manual steps
+## Methodological limits
 
-Notebook 02 exports a blank pilot tagging template.
+The source file covers one game and a five-day review window (2026-06-09 through
+2026-06-13). Its
+scraping completeness, language filter, ordering, and inclusion probability
+were not preserved well enough to call it representative of all Steam reviews
+or players. Wilson/bootstrap intervals quantify finite-sample uncertainty under
+a conditional sampling interpretation; they do not repair selection bias.
+Playtime associations are observational, not causal. Reviews may be duplicated,
+sarcastic, multilingual, or update-specific. Cross-game and post-update
+performance are unknown until the external validation gate passes.
 
-Before Notebook 03, the completed file must exist at:
+The tradeoff between labeling more data and fitting a more complex model is
+resolved in favor of label validity and simple baselines. With only 262 observed
+rows, increasing model complexity would manufacture variance, not evidence.
 
-```text
-data/interim/manual_tagging_candidates_tagged.csv
-```
+## Production status
 
-Notebook 04 exports the second tagging batch.
-
-Before Notebook 05, the completed second batch must exist at:
-
-```text
-data/processed/manual_tagging_batch_02_tagged_assistant.csv
-```
-
-### Reproducing the frozen analysis
-
-The repository already contains the frozen raw, tagged, processed, and prediction files used for the final results.
-
-The Steam API scraper uses recent reviews. Running it again at a later date may produce a different raw dataset and therefore different results.
-
-For exact reproduction of this portfolio project, use the committed frozen dataset rather than collecting new reviews.
-
----
-
-## Scraper Usage
-
-The main expanded-data scraper is:
-
-```text
-scraper/scrape_steam_reviews_batch.py
-```
-
-Run it from the project root:
-
-```bash
-python scraper/scrape_steam_reviews_batch.py
-```
-
-Output:
-
-```text
-data/raw/phasmophobia_reviews_expanded_raw.csv
-```
-
-The older Playwright-based script is retained as a pilot scraper:
-
-```text
-scraper/steam_review_scraper.py
-```
-
-The scraper is not required to reproduce the final frozen analysis.
-
----
-
-## Dashboard Usage
-
-Open:
-
-```text
-dashboard/project_dashboard.twbx
-```
-
-with Tableau Desktop or Tableau Reader.
-
-The `.twbx` file packages the workbook and its local extracts, making it more portable than a standalone `.twb` file.
-
----
-
-## Technologies
-
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Scikit-learn
-- TF-IDF
-- Logistic Regression
-- Joblib
-- Jupyter Notebook
-- Requests
-- Playwright
-- Tableau
-
----
-
-## Limitations
-
-- The final tagged dataset contains only 171 reviews.
-- The data focuses on one game and a specific review period.
-- Steam recommendation labels are user decisions, not direct sentiment labels.
-- Sentiment annotation contains subjective judgment.
-- A portion of the labels was created through AI-assisted draft annotation.
-- Sarcasm, memes, and short reviews remain difficult to classify.
-- The class distribution is not fully balanced.
-- The baseline models use TF-IDF and do not capture deeper contextual meaning.
-- The results should not be generalized to all Steam games without additional validation.
-
----
-
-## Possible Future Improvements
-
-- increase the manually reviewed annotation set
-- add inter-annotator agreement measurement
-- evaluate transformer-based sentiment models
-- compare multiple Steam games
-- perform temporal analysis around major game updates
-- add topic modeling for complaint themes
-- separate sarcasm and meme detection into dedicated tasks
-- deploy the model through a small interactive application
-- publish the dashboard through Tableau Public
-
----
-
-## Ethical and Data Considerations
-
-The project analyzes publicly available Steam review text.
-
-The dashboard and modeling datasets focus on review content and behavioral metadata. Public user identifiers are not needed for the final analysis and should be excluded from presentation-facing outputs.
-
-The results are used for educational and portfolio purposes.
-
----
-
-## Author
-
-**Orlando Devito**  
-Information Systems, Faculty of Computer Science  
-Universitas Indonesia
+This is a reproducible research/portfolio pipeline, not a production service.
+It has no latency SLO, monitoring owner, human-review SLA, business error-cost
+matrix, or approved abstention threshold. Do not automate moderation, player
+decisions, employee decisions, or any other consequential action with it.

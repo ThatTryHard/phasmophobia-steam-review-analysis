@@ -1,0 +1,42 @@
+{
+  "missing_counts": {
+    "comment_count": 1,
+    "evaluation_partition": 0,
+    "funny_count": 0,
+    "helpful_count": 0,
+    "playtime_hours": 0,
+    "received_for_free": 1,
+    "recommendation": 0,
+    "review_date": 0,
+    "review_id": 0,
+    "review_text": 0,
+    "steam_purchase": 1,
+    "text_group_id": 0,
+    "weighted_vote_score": 1,
+    "written_during_early_access": 1
+  },
+  "partition_counts": {
+    "development": 209,
+    "locked_test": 53
+  },
+  "random_seed": 20260813,
+  "recommendation_counts": {
+    "Not Recommended": 65,
+    "Recommended": 197
+  },
+  "removed_identity_fields": [
+    "author_name",
+    "author_steamid",
+    "author_steamid_norm",
+    "recommendation_id",
+    "recommendation_id_norm"
+  ],
+  "review_date_max": "2026-06-13",
+  "review_date_min": "2026-06-09",
+  "reviews_csv_sha256": "342e84c1231cba00307b55bc02ba31cc7c1f4fae20b17595f108fd50ef11a0f7",
+  "row_count": 262,
+  "sanitization_version": "privacy_safe_full_corpus_v2",
+  "schema_version": "2.0",
+  "split_manifest_sha256": "04e56005f8d432b6ae50505e004a9b59c397e9a5fce9b2b46ad11271f7b06c62",
+  "unique_text_groups": 250
+}

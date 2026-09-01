@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.egg-info/
+.ruff_cache/
+.pytest_cache/
 
 # Virtual environments
 .venv/
@@ -27,3 +30,13 @@ Thumbs.db
 *.tmp
 temp/
 tmp/
+
+# Reproducible generated analysis artifacts (keep contracts/readmes tracked)
+data/processed/*.csv
+data/dashboard/*.csv
+models/*.joblib
+models/model_manifest.json
+reports/analysis_report.md
+reports/annotation_quality.md
+reports/model_validation.md
+reports/dashboard.html

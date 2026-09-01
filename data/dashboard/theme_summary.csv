@@ -1,0 +1,17 @@
+primary_theme,recommendation,n,theme_denominator,within_theme_proportion
+Feature_request,Recommended,3,3,1.0
+Gameplay_praise,Not Recommended,1,76,0.013157894736842105
+Gameplay_praise,Recommended,75,76,0.9868421052631579
+General_evaluation,Not Recommended,6,61,0.09836065573770492
+General_evaluation,Recommended,55,61,0.9016393442622951
+Humor_or_meme,Not Recommended,2,27,0.07407407407407407
+Humor_or_meme,Recommended,25,27,0.9259259259259259
+Nostalgia_or_loss,Not Recommended,7,8,0.875
+Nostalgia_or_loss,Recommended,1,8,0.125
+Not_applicable,Not Recommended,3,31,0.0967741935483871
+Not_applicable,Recommended,28,31,0.9032258064516129
+Other,Recommended,2,2,1.0
+Technical_issue,Not Recommended,7,13,0.5384615384615384
+Technical_issue,Recommended,6,13,0.46153846153846156
+Update_or_change,Not Recommended,39,41,0.9512195121951219
+Update_or_change,Recommended,2,41,0.04878048780487805

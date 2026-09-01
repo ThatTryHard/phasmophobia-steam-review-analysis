@@ -1,7 +1,0 @@
-recommendation_group,mismatch_group,review_count,percentage_within_recommendation
-Not Recommended,Aligned Negative,63,92.65
-Not Recommended,Ambiguous / Low Information,1,1.47
-Not Recommended,Soft Mismatch,4,5.88
-Recommended,Aligned Positive,56,54.37
-Recommended,Ambiguous / Low Information,20,19.42
-Recommended,Soft Mismatch,27,26.21

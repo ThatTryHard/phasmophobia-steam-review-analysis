@@ -1,0 +1,4 @@
+predictor,outcome,n,chi_square,degrees_of_freedom,p_value,cramers_v,minimum_expected_count,sparse_warning,interpretation_limit
+recommendation,sentiment_composition,231,155.25005464598635,3,1.941358610243852e-33,0.8198037317801338,8.32034632034632,False,Exploratory association only; no causal interpretation and no multiplicity-adjusted confirmatory claim.
+recommendation,primary_theme,231,158.39513158577392,7,6.980524672526257e-31,0.8280659456396124,0.5367965367965368,True,Exploratory association only; no causal interpretation and no multiplicity-adjusted confirmatory claim.
+recommendation,player_group,231,47.79433373526157,4,1.0416989498503698e-09,0.45486468058294544,3.4891774891774894,True,Exploratory association only; no causal interpretation and no multiplicity-adjusted confirmatory claim.

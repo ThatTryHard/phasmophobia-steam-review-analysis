@@ -1,0 +1,26 @@
+player_group,recommendation_text_relation,n,player_group_denominator,within_player_group_proportion
+Casual (10–50h),Aligned negative,10,110,0.09090909090909091
+Casual (10–50h),Aligned positive,51,110,0.4636363636363636
+Casual (10–50h),Hard contradiction,1,110,0.00909090909090909
+Casual (10–50h),Insufficient text,19,110,0.17272727272727273
+Casual (10–50h),Non-evaluative text,14,110,0.12727272727272726
+Casual (10–50h),Qualified / mixed opinion,15,110,0.13636363636363635
+Hardcore (>300h),Aligned negative,5,13,0.38461538461538464
+Hardcore (>300h),Aligned positive,4,13,0.3076923076923077
+Hardcore (>300h),Qualified / mixed opinion,4,13,0.3076923076923077
+New (≤10h),Aligned negative,4,53,0.07547169811320754
+New (≤10h),Aligned positive,29,53,0.5471698113207547
+New (≤10h),Insufficient text,6,53,0.11320754716981132
+New (≤10h),Non-evaluative text,10,53,0.18867924528301888
+New (≤10h),Qualified / mixed opinion,4,53,0.07547169811320754
+Regular (50–100h),Aligned negative,4,39,0.10256410256410256
+Regular (50–100h),Aligned positive,18,39,0.46153846153846156
+Regular (50–100h),Insufficient text,5,39,0.1282051282051282
+Regular (50–100h),Non-evaluative text,5,39,0.1282051282051282
+Regular (50–100h),Qualified / mixed opinion,7,39,0.1794871794871795
+Veteran (100–300h),Aligned negative,18,47,0.3829787234042553
+Veteran (100–300h),Aligned positive,9,47,0.19148936170212766
+Veteran (100–300h),Hard contradiction,2,47,0.0425531914893617
+Veteran (100–300h),Insufficient text,1,47,0.02127659574468085
+Veteran (100–300h),Non-evaluative text,2,47,0.0425531914893617
+Veteran (100–300h),Qualified / mixed opinion,15,47,0.3191489361702128

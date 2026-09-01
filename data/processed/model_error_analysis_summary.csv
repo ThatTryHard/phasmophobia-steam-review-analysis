@@ -1,8 +1,0 @@
-analysis_section,metric,value,interpretation
-Binary Model,accuracy,0.8667,Binary Positive/Negative sentiment classification performance.
-Binary Model,macro_f1,0.8643,Balanced binary classification performance across Positive and Negative.
-Binary Model,wrong_predictions,4,Number of wrong binary test predictions.
-Multiclass Model,accuracy,0.6512,Overall multiclass sentiment classification performance.
-Multiclass Model,macro_f1,0.6162,"Balanced multiclass performance across Positive, Negative, Mixed, and Neutral/Unclear."
-Multiclass Model,wrong_predictions,15,Number of wrong multiclass test predictions.
-Multiclass Model,most_common_error_type,Positive → Mixed,"Most frequent confusion pattern, occurring 6 times."

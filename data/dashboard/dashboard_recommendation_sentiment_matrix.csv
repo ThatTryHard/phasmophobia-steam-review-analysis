@@ -1,7 +1,0 @@
-recommendation_group,sentiment_group,review_count,percentage_within_recommendation
-Not Recommended,Mixed,4,5.88
-Not Recommended,Negative,63,92.65
-Not Recommended,Neutral/Unclear,1,1.47
-Recommended,Mixed,27,26.21
-Recommended,Neutral/Unclear,20,19.42
-Recommended,Positive,56,54.37
