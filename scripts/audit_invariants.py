@@ -10,6 +10,7 @@ from phasma_review.paths import (
     ADJUDICATION_PATH,
     ANNOTATOR_A_PATH,
     ANNOTATOR_B_PATH,
+    FEATURED_REVIEWS_PATH,
     LABELED_REVIEWS_PATH,
     MODEL_MANIFEST_PATH,
     RAW_REVIEWS_PATH,
@@ -18,7 +19,7 @@ from phasma_review.paths import (
 )
 from phasma_review.prepare import FORBIDDEN_IDENTITY_COLUMNS
 from phasma_review.schema import ANNOTATION_COLUMNS
-from phasma_review.utils import sha256_file
+from phasma_review.utils import sha256_file, sha256_text_file
 
 
 def main() -> None:
@@ -94,8 +95,13 @@ def main() -> None:
     if MODEL_MANIFEST_PATH.exists():
         model_manifest = json.loads(MODEL_MANIFEST_PATH.read_text(encoding="utf-8"))
         assert model_manifest["production_approved"] is False
-        assert model_manifest["label_file_sha256"] == sha256_file(
+        # Generated CSV hashes normalize CRLF/LF so Windows-built artifacts
+        # remain verifiable in GitHub Actions on Linux.
+        assert model_manifest["label_file_sha256"] == sha256_text_file(
             LABELED_REVIEWS_PATH
+        )
+        assert model_manifest["featured_file_sha256"] == sha256_text_file(
+            FEATURED_REVIEWS_PATH
         )
 
     print(

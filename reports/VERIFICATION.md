@@ -12,7 +12,7 @@ the rebuild.
 | Editable package build without build isolation | Pass |
 | `pip check` dependency consistency | Pass |
 | Python source compilation | Pass |
-| Test suite | **20 passed** |
+| Test suite | **21 passed** |
 | Synthetic analysis → model → dashboard integration | Pass |
 | Deidentification and forbidden-column check | Pass |
 | Duplicate-group development/test isolation | Pass |

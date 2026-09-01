@@ -14,11 +14,27 @@ RANDOM_SEED = 20260813
 
 
 def sha256_file(path: Path) -> str:
+    """Hash the exact bytes of an immutable source or binary artifact."""
+
     digest = hashlib.sha256()
     with path.open("rb") as handle:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def sha256_text_file(path: Path) -> str:
+    """Hash UTF-8 text after normalizing platform-specific line endings.
+
+    Generated CSV files can be CRLF in a Windows working tree and LF after
+    Git checks them out on Linux. Normalizing newlines preserves an integrity
+    check on the text content without making the manifest operating-system
+    dependent.
+    """
+
+    content = path.read_text(encoding="utf-8")
+    normalized = content.replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
 def write_json(payload: dict[str, Any], path: Path) -> None:

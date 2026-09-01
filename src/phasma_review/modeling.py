@@ -47,7 +47,13 @@ from .paths import (
     TEST_RESULTS_PATH,
     ensure_output_directories,
 )
-from .utils import RANDOM_SEED, percentile_interval, sha256_file, write_json
+from .utils import (
+    RANDOM_SEED,
+    percentile_interval,
+    sha256_file,
+    sha256_text_file,
+    write_json,
+)
 
 MODEL_REPORT_PATH = REPORTS_DIR / "model_validation.md"
 MODEL_CLASSES = (
@@ -602,8 +608,10 @@ def run_modeling(repeats: int = 10) -> dict[str, object]:
         "test_class_counts": locked_test["sentiment_composition"]
         .value_counts()
         .to_dict(),
-        "label_file_sha256": sha256_file(LABELED_REVIEWS_PATH),
-        "featured_file_sha256": sha256_file(FEATURED_REVIEWS_PATH),
+        # Generated CSVs are text-normalized before hashing so a Windows
+        # training run verifies after Git checks the repository out on Linux.
+        "label_file_sha256": sha256_text_file(LABELED_REVIEWS_PATH),
+        "featured_file_sha256": sha256_text_file(FEATURED_REVIEWS_PATH),
         "split_manifest_sha256": sha256_file(
             RAW_REVIEWS_PATH.with_name("split_manifest.csv")
         ),
