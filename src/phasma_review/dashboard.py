@@ -14,15 +14,21 @@ Reporting design:
 from __future__ import annotations
 
 import html
+import json
 from pathlib import Path
 
 import pandas as pd
 
 from .analysis import run_analysis
+from .dashboard_view import render_dashboard
 from .paths import (
+    ADJUDICATION_PATH,
+    ANNOTATION_DIR,
     DASHBOARD_DATA_DIR,
     FEATURED_REVIEWS_PATH,
+    MODEL_MANIFEST_PATH,
     PREVALENCE_RESULTS_PATH,
+    PROCESSED_DIR,
     REPORTS_DIR,
     TEST_PREDICTIONS_PATH,
     TEST_RESULTS_PATH,
@@ -246,12 +252,36 @@ def _table_html(frame: pd.DataFrame, maximum_rows: int = 40) -> str:
 
 
 def write_dashboard_html(tables: dict[str, pd.DataFrame]) -> Path:
-    model_gate = (
-        "The predeclared locked-test evaluation is complete; model results remain "
-        "research-only and require future temporal validation."
-        if not tables["model_summary.csv"].empty
-        else "Model results remain blank until the locked-test evaluation is run."
-    )
+    """Render saved evidence without fitting a model or altering analytical data.
+
+    Presentation change: charts, exact-table fallbacks, and four navigable views
+    replace the table-only page. Supporting artifacts are read-only; missing
+    optional evidence is displayed as unavailable rather than invented.
+    """
+
+    def records(frame: pd.DataFrame) -> list[dict]:
+        # pandas converts missing values to JSON null, not invalid NaN tokens.
+        return json.loads(frame.to_json(orient="records", double_precision=15))
+
+    def optional_records(path: Path) -> list[dict]:
+        return records(pd.read_csv(path)) if path.exists() else []
+
+    payload = {
+        "tables": {name: records(frame) for name, frame in tables.items()},
+        "agreement": optional_records(ANNOTATION_DIR / "annotation_agreement.csv"),
+        "selection": optional_records(PROCESSED_DIR / "model_selection_summary.csv"),
+        "predictions": optional_records(TEST_PREDICTIONS_PATH),
+        "manifest": (
+            json.loads(MODEL_MANIFEST_PATH.read_text(encoding="utf-8"))
+            if MODEL_MANIFEST_PATH.exists()
+            else {}
+        ),
+        "adjudication_rows": (
+            len(pd.read_csv(ADJUDICATION_PATH))
+            if ADJUDICATION_PATH.exists()
+            else None
+        ),
+    }
     sections = [
         (
             "Recommendation/text relationship",
@@ -295,34 +325,8 @@ def write_dashboard_html(tables: dict[str, pd.DataFrame]) -> Path:
         f"{_table_html(table)}</section>"
         for title, note, table in sections
     )
-    document = f"""<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Phasmophobia Review Analysis | Results Dashboard</title>
-  <style>
-    :root {{ color-scheme: light; --ink:#15202b; --muted:#53606c; --line:#d9e0e6; --accent:#0b6e75; }}
-    body {{ font-family: Inter, ui-sans-serif, system-ui, sans-serif; color:var(--ink); margin:0; background:#f6f8fa; }}
-    main {{ max-width:1180px; margin:auto; padding:32px 20px 64px; }}
-    header, section {{ background:white; border:1px solid var(--line); border-radius:10px; padding:22px; margin-bottom:18px; }}
-    h1, h2 {{ margin-top:0; }} h2 {{ color:var(--accent); }}
-    .scope {{ border-left:5px solid #b25d00; }} .blocked {{ color:#8a3b12; font-weight:600; }}
-    .note, p {{ color:var(--muted); line-height:1.5; }}
-    table {{ width:100%; border-collapse:collapse; font-size:0.88rem; overflow-wrap:anywhere; }}
-    th, td {{ padding:8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }}
-    th {{ background:#eef5f5; position:sticky; top:0; }}
-    section {{ overflow-x:auto; }}
-  </style>
-</head>
-<body><main>
-  <header class="scope">
-    <h1>Phasmophobia Steam Review Analysis</h1>
-    <p><strong>Scope:</strong> the available 262-row review corpus only. This page does not claim population representativeness, causality, cross-game validity, or stability after a future update.</p>
-    <p><strong>Evidence gate:</strong> all displayed human-label results come from completed blinded annotation and adjudication. {html.escape(model_gate)}</p>
-  </header>
-  {section_html}
-</main></body></html>"""
+    document = render_dashboard(payload, fallback_html=section_html)
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     DASHBOARD_HTML_PATH.write_text(document, encoding="utf-8")
     return DASHBOARD_HTML_PATH
 
